@@ -1,5 +1,6 @@
+
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en-US">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,6 +30,9 @@
   .logo{ color:#fff; font-size:1.6rem; font-weight:800; letter-spacing:-0.5px; text-decoration:none; }
   .logo span{ color:var(--accent-orange); }
   .header-sub{ color:#94a3b8; font-size:.85rem; }
+  nav{ display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-end; gap:.5rem 1rem; }
+  nav a{ color:#fff; text-decoration:none; font-weight:500; font-size:.95rem; transition:color .2s; }
+  nav a:hover, nav a.current-page{ color:var(--accent-orange); }
 
   main{ max-width:1100px; margin:0 auto; padding:2.5rem 5% 4rem; }
 
@@ -119,6 +123,15 @@
   }
   .privacy-note{ font-size:.72rem; color:var(--text-muted); margin-top:.8rem; line-height:1.5; }
 
+  @media (max-width:640px){
+    .nav-container{ flex-direction:column; align-items:stretch; min-width:0; }
+    .logo{ align-self:flex-start; }
+    nav{ width:100%; max-width:100%; min-width:0; flex-wrap:nowrap; justify-content:flex-start; overflow-x:auto; padding-bottom:.2rem; row-gap:.7rem; }
+    nav a{ white-space:nowrap; }
+    nav a{ font-size:.86rem; }
+    main{ padding-top:2rem; }
+  }
+
   footer{ background:#09111e; color:#94a3b8; padding:1.6rem 5%; text-align:center; font-size:.8rem; }
 </style>
 </head>
@@ -126,8 +139,13 @@
 
 <header>
   <div class="nav-container">
-    <a class="logo">uPull<span>.ai</span></a>
-    <span class="header-sub">Case Study Submission</span>
+    <a href="index.html" class="logo">uPull<span>.ai</span></a>
+    <nav>
+      <a href="index.html">Strategic Core</a>
+      <a href="community.html">Community</a>
+      <a href="case-studies.html" class="current-page">Submit Case</a>
+      <a href="roi.html">ROI Calculator</a>
+    </nav>
   </div>
 </header>
 
