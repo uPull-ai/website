@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>uPull.ai — Submit a Case Study</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; }
+  :root{
+    --primary-navy:#0A192F;
+    --nhs-blue:#005EB8;
+    --accent-orange:#E65F2B;
+    --bg:#F8FAFC;
+    --card-bg:#ffffff;
+    --text-dark:#1E293B;
+    --text-muted:#64748B;
+    --border-color:#E2E8F0;
+    --clinical:#0d9488;
+    --operational:#ea580c;
+  }
+  body{ background:var(--bg); color:var(--text-dark); line-height:1.6; }
+
+  header{
+    background-color:var(--primary-navy);
+    padding:1rem 5%;
+    border-bottom:3px solid var(--nhs-blue);
+  }
+  .nav-container{ display:flex; align-items:center; justify-content:space-between; max-width:1200px; margin:0 auto; flex-wrap:wrap; gap:.5rem; }
+  .logo{ color:#fff; font-size:1.6rem; font-weight:800; letter-spacing:-0.5px; text-decoration:none; }
+  .logo span{ color:var(--accent-orange); }
+  .header-sub{ color:#94a3b8; font-size:.85rem; }
+
+  main{ max-width:1100px; margin:0 auto; padding:2.5rem 5% 4rem; }
+
+  .intro{ text-align:center; margin-bottom:2.5rem; }
+  .intro h1{ font-size:2rem; color:var(--primary-navy); font-weight:800; letter-spacing:-0.5px; margin-bottom:.6rem; }
+  .intro p{ color:var(--text-muted); max-width:640px; margin:0 auto; }
+
+  .guidance{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1rem;
+    margin-bottom:2.5rem;
+  }
+  .guidance div{
+    background:#fff; border:1px solid var(--border-color); border-top:4px solid var(--nhs-blue);
+    border-radius:8px; padding:1rem 1.1rem; font-size:.85rem; color:var(--text-muted);
+  }
+  .guidance div strong{ display:block; color:var(--primary-navy); font-size:.9rem; margin-bottom:.3rem; }
+
+  .layout{ display:grid; grid-template-columns:1.2fr 1fr; gap:2rem; align-items:start; }
+  @media (max-width:860px){ .layout{ grid-template-columns:1fr; } }
+
+  .form-card{
+    background:#fff; border:1px solid var(--border-color); border-radius:10px;
+    padding:1.8rem; box-shadow:0 4px 6px -1px rgba(0,0,0,0.03);
+  }
+  .form-card h2{ font-size:.85rem; text-transform:uppercase; letter-spacing:.06em; color:var(--text-muted); margin-bottom:1.2rem; padding-bottom:.6rem; border-bottom:1px solid var(--border-color); }
+
+  .field{ margin-bottom:1rem; }
+  .field label{ display:block; font-size:.85rem; font-weight:600; color:var(--primary-navy); margin-bottom:.3rem; }
+  .field .hint{ font-size:.75rem; color:var(--text-muted); margin-bottom:.4rem; }
+  .field input[type=text], .field input[type=email], .field input[type=url], .field select, .field textarea{
+    width:100%; border:1px solid var(--border-color); border-radius:6px; padding:.55rem .7rem;
+    font-size:.9rem; font-family:inherit; background:#fff; color:var(--text-dark);
+  }
+  .field textarea{ resize:vertical; min-height:70px; }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline:none; border-color:var(--nhs-blue); box-shadow:0 0 0 3px rgba(0,94,184,0.12);
+  }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  @media (max-width:520px){ .row2{ grid-template-columns:1fr; } }
+
+  .submitter-block{
+    background:var(--bg); border:1px dashed var(--border-color); border-radius:8px;
+    padding:1rem 1.1rem; margin-top:1.6rem;
+  }
+  .submitter-block h3{ font-size:.8rem; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); margin-bottom:.8rem; }
+
+  .actions{ display:flex; gap:.7rem; margin-top:1.6rem; flex-wrap:wrap; }
+  .btn{
+    border:none; border-radius:4px; padding:.7rem 1.3rem; font-weight:700; font-size:.9rem;
+    cursor:pointer; transition:background .2s, transform .1s; text-decoration:none; display:inline-block;
+  }
+  .btn-primary{ background:var(--accent-orange); color:#fff; }
+  .btn-primary:hover{ background:#c54f20; transform:translateY(-1px); }
+  .btn-ghost{ background:transparent; color:var(--primary-navy); border:1px solid var(--border-color); }
+  .btn-ghost:hover{ background:#fff; }
+  .status-msg{ font-size:.8rem; margin-top:.6rem; color:var(--clinical); font-weight:600; min-height:1.1em; }
+
+  /* live preview — mirrors the site's lib-card component */
+  .preview-label{ font-size:.85rem; text-transform:uppercase; letter-spacing:.06em; color:var(--text-muted); margin-bottom:.8rem; }
+  .lib-card{
+    background:#fff; border-radius:12px; overflow:hidden; border:1px solid var(--border-color);
+    box-shadow:0 4px 6px -1px rgba(0,0,0,0.03); display:flex; flex-direction:column;
+  }
+  .lib-img-frame{ height:150px; position:relative; background:#d1d9e6; }
+  .lib-img-frame img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .lib-img-frame .placeholder{ display:flex; align-items:center; justify-content:center; height:100%; color:#94a3b8; font-size:.8rem; }
+  .lib-badge{ position:absolute; top:.5rem; right:.5rem; padding:.2rem .6rem; border-radius:4px; font-size:.65rem; font-weight:700; text-transform:uppercase; color:#fff; }
+  .badge-clinical{ background:var(--clinical); }
+  .badge-operational{ background:var(--operational); }
+  .lib-body{ padding:1.2rem; }
+  .lib-body h3{ color:var(--primary-navy); font-size:1.15rem; margin-bottom:.15rem; }
+  .lib-loc{ font-size:.75rem; color:var(--nhs-blue); font-weight:600; margin-bottom:.5rem; }
+  .lib-bg{ color:var(--text-muted); font-size:.85rem; margin-bottom:.6rem; }
+  .lib-impact{ font-weight:700; color:var(--accent-orange); font-size:.88rem; }
+  .lib-empty{ padding:2.5rem 1rem; text-align:center; color:var(--text-muted); font-size:.85rem; }
+
+  .recent{ margin-top:1.6rem; }
+  .recent h3{ font-size:.8rem; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); margin-bottom:.7rem; }
+  .recent-row{
+    display:flex; justify-content:space-between; align-items:center; gap:.6rem;
+    background:#fff; border:1px solid var(--border-color); border-radius:6px; padding:.6rem .8rem; margin-bottom:.5rem; font-size:.82rem;
+  }
+  .recent-org{ font-weight:600; color:var(--primary-navy); }
+  .recent-type{ font-size:.7rem; color:var(--text-muted); }
+  .pending-badge{
+    background:#fff7ed; color:var(--accent-orange); border:1px solid #fed7aa;
+    padding:.2rem .6rem; border-radius:30px; font-size:.68rem; font-weight:700; text-transform:uppercase; white-space:nowrap;
+  }
+  .privacy-note{ font-size:.72rem; color:var(--text-muted); margin-top:.8rem; line-height:1.5; }
+
+  footer{ background:#09111e; color:#94a3b8; padding:1.6rem 5%; text-align:center; font-size:.8rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-container">
+    <a class="logo">uPull<span>.ai</span></a>
+    <span class="header-sub">Case Study Submission</span>
+  </div>
+</header>
+
+<main>
+  <div class="intro">
+    <h1>Submit a case study</h1>
+    <p>Tell us how AI was pulled into a real clinical or operational workflow. Strong submissions are specific, measurable, and honest about what changed.</p>
+  </div>
+
+  <div class="guidance">
+    <div><strong>Be specific</strong>Name the exact workflow, not a general category.</div>
+    <div><strong>Show before/after</strong>What was true before, what changed, what's measured now.</div>
+    <div><strong>One headline metric</strong>The single number that matters most.</div>
+    <div><strong>Note safeguards</strong>How the workflow stays safe, reviewed, and accountable.</div>
+  </div>
+
+  <div class="layout">
+    <!-- FORM -->
+    <div class="form-card">
+      <h2>Case details</h2>
+
+      <div class="field">
+        <label for="caseName">Case study name</label>
+        <input type="text" id="caseName" placeholder="e.g. Outpatient DNA Reduction Agent">
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label for="caseType">Category</label>
+          <select id="caseType">
+            <option value="clinical">Clinical productivity</option>
+            <option value="operational">Operational productivity</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="location">Location</label>
+          <input type="text" id="location" placeholder="e.g. United Kingdom (Leeds)">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="imageUrl">Image URL (optional)</label>
+        <div class="hint">A relevant photo makes the card easier to scan — leave blank to show a placeholder.</div>
+        <input type="url" id="imageUrl" placeholder="https://...">
+      </div>
+
+      <div class="field">
+        <label for="background">Operational context</label>
+        <div class="hint">What was the situation before this workflow was touched?</div>
+        <textarea id="background" placeholder="e.g. Prior to the intervention, the outpatient team reported..."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="problemStatement">Problem statement</label>
+        <div class="hint">What specifically was broken, slow, or risky?</div>
+        <textarea id="problemStatement"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="proposedSolutions">Workflow redesign</label>
+        <div class="hint">What was actually built or changed — the workflow, not just the tool.</div>
+        <textarea id="proposedSolutions"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="findings">Findings</label>
+        <div class="hint">What was observed once it was live?</div>
+        <textarea id="findings"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="safety">Safety envelope</label>
+        <div class="hint">Human-in-the-loop checks, review steps, governance sign-off.</div>
+        <textarea id="safety"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="impact">Headline impact</label>
+        <div class="hint">One sentence, one number if possible — this is what appears on the card.</div>
+        <input type="text" id="impact" placeholder="e.g. 22% increase in daily outpatient slots">
+      </div>
+
+      <div class="submitter-block">
+        <h3>Your details (not published)</h3>
+        <div class="row2">
+          <div class="field" style="margin-bottom:.6rem;">
+            <label for="submitterName">Name</label>
+            <input type="text" id="submitterName">
+          </div>
+          <div class="field" style="margin-bottom:.6rem;">
+            <label for="submitterOrg">Organisation</label>
+            <input type="text" id="submitterOrg">
+          </div>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label for="submitterEmail">Email</label>
+          <input type="email" id="submitterEmail" placeholder="you@trust.nhs.uk">
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" onclick="submitCase()">Send to uPull.ai</button>
+        <button class="btn btn-ghost" onclick="copyCase()">Copy as text</button>
+        <button class="btn btn-ghost" onclick="clearForm()">Clear</button>
+      </div>
+      <div class="status-msg" id="statusMsg"></div>
+      <div class="privacy-note">Submitting opens an email to info@upull.ai with your case study. Only your case name, category, and location appear in the "recently submitted" list below, visible to anyone with this page open — your contact details are sent by email only, never published.</div>
+    </div>
+
+    <!-- PREVIEW -->
+    <div>
+      <div class="preview-label">Live preview — how this will appear in the case library</div>
+      <div class="lib-card" id="previewCard"></div>
+
+      <div class="recent">
+        <h3>Recently submitted</h3>
+        <div id="recentList"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p><strong>uPull.ai Ltd.</strong> · info@upull.ai</p>
+</footer>
+
+<script>
+const fieldIds = ['caseName','caseType','location','imageUrl','background','problemStatement','proposedSolutions','findings','safety','impact','submitterName','submitterOrg','submitterEmail'];
+
+function val(id){ return document.getElementById(id).value.trim(); }
+
+function renderPreview(){
+  const name = val('caseName') || 'Untitled case study';
+  const type = val('caseType') || 'clinical';
+  const location = val('location');
+  const background = val('background');
+  const impact = val('impact');
+  const img = val('imageUrl');
+
+  const imgHtml = img
+    ? `<img src="${img}" alt="${name}">`
+    : `<div class="placeholder">No image provided</div>`;
+
+  document.getElementById('previewCard').innerHTML = `
+    <div class="lib-img-frame">${imgHtml}<span class="lib-badge badge-${type}">${type}</span></div>
+    <div class="lib-body">
+      <h3>${name}</h3>
+      ${location ? `<div class="lib-loc">📍 ${location}</div>` : ''}
+      ${background ? `<div class="lib-bg">${background.slice(0,140)}${background.length>140?'…':''}</div>` : ''}
+      ${impact ? `<div class="lib-impact">${impact}</div>` : ''}
+    </div>
+  `;
+}
+
+function buildEmailBody(){
+  return [
+    `Case study name: ${val('caseName')}`,
+    `Category: ${val('caseType')}`,
+    `Location: ${val('location')}`,
+    `Image URL: ${val('imageUrl') || '—'}`,
+    ``,
+    `Operational context:`,
+    val('background'),
+    ``,
+    `Problem statement:`,
+    val('problemStatement'),
+    ``,
+    `Workflow redesign:`,
+    val('proposedSolutions'),
+    ``,
+    `Findings:`,
+    val('findings'),
+    ``,
+    `Safety envelope:`,
+    val('safety'),
+    ``,
+    `Headline impact:`,
+    val('impact'),
+    ``,
+    `— Submitted by —`,
+    `Name: ${val('submitterName')}`,
+    `Organisation: ${val('submitterOrg')}`,
+    `Email: ${val('submitterEmail')}`
+  ].join('\n');
+}
+
+async function submitCase(){
+  if(!val('caseName')){
+    setStatus('Please add a case study name before submitting.', true);
+    return;
+  }
+  const subject = encodeURIComponent('Case Study Submission: ' + val('caseName'));
+  const body = encodeURIComponent(buildEmailBody());
+  window.location.href = `mailto:info@upull.ai?subject=${subject}&body=${body}`;
+
+  await addToRecent();
+  setStatus('Opening your email client to info@upull.ai — please hit send there to complete your submission.');
+}
+
+async function copyCase(){
+  try{
+    await navigator.clipboard.writeText(buildEmailBody());
+    setStatus('Copied — paste this into an email to info@upull.ai.');
+  }catch(e){
+    setStatus('Could not copy automatically — please select and copy the fields manually.', true);
+  }
+}
+
+function setStatus(msg, isError){
+  const el = document.getElementById('statusMsg');
+  el.textContent = msg;
+  el.style.color = isError ? '#dc2626' : '#0d9488';
+}
+
+function clearForm(){
+  fieldIds.forEach(id=>{
+    const el = document.getElementById(id);
+    if(el.tagName === 'SELECT') el.value = 'clinical';
+    else el.value = '';
+  });
+  renderPreview();
+  setStatus('');
+}
+
+// --- shared "recently submitted" tracker (public, non-identifying fields only) ---
+async function addToRecent(){
+  const entry = {
+    name: val('caseName'),
+    type: val('caseType'),
+    location: val('location') || '—',
+    ts: Date.now()
+  };
+  let list = [];
+  try{
+    const r = await window.storage.get('case-submissions', true);
+    if(r && r.value) list = JSON.parse(r.value);
+  }catch(e){ list = []; }
+  list.unshift(entry);
+  list = list.slice(0, 10);
+  try{ await window.storage.set('case-submissions', JSON.stringify(list), true); }catch(e){}
+  renderRecent(list);
+}
+
+async function loadRecent(){
+  try{
+    const r = await window.storage.get('case-submissions', true);
+    if(r && r.value) renderRecent(JSON.parse(r.value));
+    else renderRecent([]);
+  }catch(e){ renderRecent([]); }
+}
+
+function renderRecent(list){
+  const container = document.getElementById('recentList');
+  if(!list.length){
+    container.innerHTML = `<div class="lib-empty">No submissions yet — be the first.</div>`;
+    return;
+  }
+  container.innerHTML = list.map(item => `
+    <div class="recent-row">
+      <div>
+        <div class="recent-org">${item.name}</div>
+        <div class="recent-type">${item.type} · ${item.location}</div>
+      </div>
+      <span class="pending-badge">Under review</span>
+    </div>
+  `).join('');
+}
+
+fieldIds.forEach(id=>{
+  document.getElementById(id).addEventListener('input', renderPreview);
+});
+
+renderPreview();
+loadRecent();
+</script>
+</body>
+</html>
