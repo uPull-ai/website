@@ -1,6 +1,7 @@
 
+
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en-US">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
@@ -50,6 +51,13 @@
       margin: 0 auto;
       gap: 0.5rem 1rem;
     }
+    .nav-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.45rem;
+      min-width: 0;
+    }
     .logo {
       color: #ffffff;
       font-size: 1.6rem;
@@ -64,6 +72,13 @@
       align-items: center;
       gap: 0.5rem 1rem;
     }
+    .main-nav { justify-content: flex-end; }
+    .sub-nav {
+      justify-content: flex-end;
+      gap: 0.35rem 0.8rem;
+      padding-top: 0.25rem;
+      border-top: 1px solid rgba(255,255,255,0.14);
+    }
     nav a {
       color: #ffffff;
       text-decoration: none;
@@ -74,6 +89,27 @@
       padding: 0.25rem 0;
     }
     nav a:hover, nav a.active-tab { color: var(--accent-orange); }
+    .sub-nav a, .sub-nav button {
+      color: #cbd5e1;
+      font-size: 0.82rem;
+    }
+    .sub-nav button {
+      background: transparent;
+      border: 0;
+      font-family: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 0.25rem 0;
+      transition: color 0.2s;
+    }
+    .sub-nav button:hover, .sub-nav button.active-filter { color: var(--accent-orange); }
+    nav a.page-link {
+      opacity: 0.85;
+    }
+    nav a.page-link.current-page {
+      color: var(--accent-orange);
+      opacity: 1;
+    }
     .cta-btn {
       background-color: var(--accent-orange);
       color: #ffffff;
@@ -329,6 +365,21 @@
     .filter-btn.active-filter[data-target="all"] { background: var(--primary-navy); color: white; }
     .filter-btn.active-filter[data-target="clinical"] { background: var(--clinical); color: white; }
     .filter-btn.active-filter[data-target="operational"] { background: var(--operational); color: white; }
+    .sub-nav .filter-btn {
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      color: #cbd5e1;
+      padding: 0.25rem 0;
+      font-size: 0.82rem;
+    }
+    .sub-nav .filter-btn.active-filter,
+    .sub-nav .filter-btn.active-filter[data-target="all"],
+    .sub-nav .filter-btn.active-filter[data-target="clinical"],
+    .sub-nav .filter-btn.active-filter[data-target="operational"] {
+      background: transparent;
+      color: var(--accent-orange);
+    }
     .library-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -494,8 +545,14 @@
     @media (max-width: 480px) {
       .hero-left h1 { font-size: 1.8rem; }
       .section-title { font-size: 1.7rem; }
-      .nav-container { flex-direction: column; align-items: stretch; }
-      nav { justify-content: center; }
+      .nav-container { flex-direction: column; align-items: stretch; min-width: 0; }
+      .logo { align-self: flex-start; }
+      .nav-stack { width: 100%; align-items: stretch; }
+      nav { width: 100%; max-width: 100%; min-width: 0; flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; padding-bottom: 0.2rem; row-gap: 0.7rem; }
+      nav a { white-space: nowrap; }
+      nav a { font-size: 0.86rem; }
+      .sub-nav { padding-top: 0.45rem; }
+      .sub-nav a, .sub-nav button { white-space: nowrap; font-size: 0.8rem; }
       .cta-btn { font-size: 0.8rem; padding: 0.4rem 1rem; }
       .waitlist-row { flex-direction: column; align-items: flex-start; }
     }
@@ -505,11 +562,22 @@
 <header>
   <div class="nav-container">
     <a href="#" class="logo" onclick="routeTab('landing')">uPull<span>.ai</span></a>
-    <nav>
+    <div class="nav-stack">
+    <nav class="main-nav">
       <a id="tab-landing" class="active-tab" onclick="routeTab('landing')">Strategic Core</a>
-      <a id="tab-library" onclick="routeTab('library')">Cases (30)</a>
+      <a href="community.html" class="page-link">Community</a>
+      <a href="case-studies.html" class="page-link">Submit Case</a>
+      <a href="roi.html" class="page-link">ROI Calculator</a>
       <a href="mailto:info@upull.ai" class="cta-btn">Proof of Value</a>
     </nav>
+    <nav class="sub-nav" aria-label="Cases tools">
+      <a id="tab-library" onclick="routeTab('library')">Cases (30)</a>
+      <button class="filter-btn active-filter" data-target="all">Full Spectrum</button>
+      <button class="filter-btn" data-target="clinical">Clinical</button>
+      <button class="filter-btn" data-target="operational">Operational</button>
+      <a href="case-studies.html">Submit Case</a>
+    </nav>
+    </div>
   </div>
 </header>
 
@@ -567,11 +635,11 @@
 
     <section id="roadmap">
       <h2 class="section-title">The Three-Stage Delivery Roadmap</h2>
-      <p class="section-subtitle">A controlled optimisation framework to minimise risk and capture metrics.</p>
+      <p class="section-subtitle">A controlled optimization framework to minimize risk and capture metrics.</p>
       <div class="roadmap">
         <div class="step-card active"><div class="step-badge">Stage A: Weeks 1-6</div><h3>Prove</h3><p>Focus on <strong>1 workflow</strong> and <strong>2 staff</strong> to demonstrate rapid proof of value.</p><div style="margin-top:1rem; font-weight:bold; color:var(--accent-orange);">Initial 2:1 Return</div></div>
         <div class="step-card"><div class="step-badge">Stage B: Expansion</div><h3>Build</h3><p>Engage executive sponsor and empower <strong>2-3 Intrapreneurs</strong> to scale the model.</p><div style="margin-top:1rem; font-weight:bold; color:var(--nhs-blue);">Standard 5:1 Return</div></div>
-        <div class="step-card"><div class="step-badge">Stage C: Standardisation</div><h3>Scale</h3><p>Execute organisation-wide rollout with central platforms and dashboards.</p><div style="margin-top:1rem; font-weight:bold; color:var(--primary-navy);">Systemic 10:1+ Return</div></div>
+        <div class="step-card"><div class="step-badge">Stage C: Standardization</div><h3>Scale</h3><p>Execute organization-wide rollout with central platforms and dashboards.</p><div style="margin-top:1rem; font-weight:bold; color:var(--primary-navy);">Systemic 10:1+ Return</div></div>
       </div>
     </section>
 
@@ -592,7 +660,7 @@
 
     <section id="cases">
       <h2 class="section-title">Strategic Case Validations</h2>
-      <p class="section-subtitle">Active operational optimisations and clinical efficiency tracks.</p>
+      <p class="section-subtitle">Active operational optimizations and clinical efficiency tracks.</p>
       <div class="case-preview-grid">
         <article class="case-preview-card">
           <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=600&q=80" alt="clinical scribing" class="case-preview-banner" loading="lazy">
@@ -613,7 +681,7 @@
       <p class="section-subtitle">Organisations that have registered interest in taking part in an upcoming Proof of Value trial. Status shown reflects onboarding stage, not commitment level.</p>
       <div class="waitlist-grid" id="waitlist-injector"></div>
       <div class="waitlist-cta">
-        <h3 style="color:var(--primary-navy); margin-bottom:0.4rem;">Register your organisation's interest</h3>
+        <h3 style="color:var(--primary-navy); margin-bottom:0.4rem;">Register your organization's interest</h3>
         <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1rem;">Join the waitlist to be considered for the next Proof of Value cohort — one workflow, two staff, six weeks.</p>
         <a href="mailto:info@upull.ai?subject=Proof%20of%20Concept%20Waitlist%20Registration" class="cta-btn">Join the Waitlist</a>
       </div>
@@ -646,11 +714,6 @@
     <section style="padding-top:2rem;">
       <h2 class="section-title">Expanded Verification Registry</h2>
       <p class="section-subtitle">30 active automation profiles divided by clinical and operational return vectors.</p>
-      <div class="filter-shelf">
-        <button class="filter-btn active-filter" data-target="all">✨ Full Spectrum (30)</button>
-        <button class="filter-btn" data-target="clinical">🩺 Clinical Productivity</button>
-        <button class="filter-btn" data-target="operational">⚙️ Operational Productivity</button>
-      </div>
       <div class="library-grid" id="library-injector"></div>
     </section>
   </main>
@@ -700,7 +763,7 @@
       background: "Prior to the intervention, healthcare facilities in London reported severe backlogs due to cumbersome administrative and analytical procedures. Clinicians spent an average of 4.2 hours daily on documentation and routine administrative workflows rather than active medical engagement.", 
       problem_statement: "The manual compilation of patient encounter records severely limits consultation throughput, imposing a substantial cognitive burden on medical practitioners. Traditional digital solutions lacked the contextual and adaptive capability required to interface seamlessly with complex Electronic Health Records (EHR) frameworks.", 
       findings: "Empirical timeline mapping observed complete elimination of out-of-chart dictation. Sign-off turnaround collapsed from 18 minutes down to 90 seconds. Audio transcription validation tests demonstrated an unmatched 99.6% accuracy.",
-      proposed_solutions: "Deploy specialised custom boundary microphones within busy clinical settings to minimise background interference. Establish a strict mandatory human-in-the-loop validation protocol where consultants must actively verify and tap to sign off entries before automated EHR sync occurs.", 
+      proposed_solutions: "Deploy specialized custom boundary microphones within busy clinical settings to minimize background interference. Establish a strict mandatory human-in-the-loop validation protocol where consultants must actively verify and tap to sign off entries before automated EHR sync occurs.", 
       impact: "⏱️ Immediate 22% increase in daily outpatient slots, a measurable decrease in staff turnover, and 90-second sign-off turnaround.", 
       src: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500&q=80" 
     },
@@ -748,7 +811,7 @@
       background: "Mental health management relied heavily on periodic, manual clinical assessments, frequently missing dynamic behavioral shifts between outpatient appointments.", 
       problem_statement: "Subjective tracking protocols fail to capture real-time acoustic changes, voice frequency modulations, or micro-pause trends indicative of imminent psychiatric crises.", 
       findings: "Continuous vocal pattern parsing isolated early indicators of cognitive dissociation and depressive drops before overt clinical manifestation occurred.", 
-      proposed_solutions: "Deploy non-invasive acoustic telemetry streams within secure check-in environments, utilising strict data tokenisation to eliminate external identity linkages.", 
+      proposed_solutions: "Deploy non-invasive acoustic telemetry streams within secure check-in environments, utilizing strict data tokenisation to eliminate external identity linkages.", 
       impact: "🧠 Real-Time Biomarker Tracking & 52% crisis reduction via automated behavioral anomaly triggers.", 
       src: "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?w=500&q=80" 
     },
@@ -769,10 +832,10 @@
       name: "DermoScan Agent", 
       type: "clinical", 
       location: "Canada (Toronto)", 
-      background: "Dermatology outpatient clinics reported severe case backlogs due to high consultation demands and slow visual assessment prioritisation workflows.", 
+      background: "Dermatology outpatient clinics reported severe case backlogs due to high consultation demands and slow visual assessment prioritization workflows.", 
       problem_statement: "Visual evaluation of atypical skin lesions is highly variable, demanding specialist hours for benign cases and bottlenecking high-risk melanoma care pipelines.", 
       findings: "Computer vision classifiers matched expert diagnostic parity across a multi-ethnic visual cohort, handling high-velocity image triage accurately.", 
-      proposed_solutions: "Integrate specialised high-resolution imaging attachments with clinical devices, mapping surface lesion pixels against a validated baseline framework.", 
+      proposed_solutions: "Integrate specialized high-resolution imaging attachments with clinical devices, mapping surface lesion pixels against a validated baseline framework.", 
       impact: "🔍 99.6% Diagnostic Assessment Parity and rapid visual risk stratification.", 
       src: "https://github.com/uPull-ai/web/blob/main/asset/images/Dermatology%20AI%20Triage-2.png?raw=true?raw=true?w=500&q=80" 
     },
@@ -783,7 +846,7 @@
       location: "France (Lyon)", 
       background: "Gastroenterology units faced severe analytical backlogs due to the slow manual generation of post-procedure structural endoscopy reports.", 
       problem_statement: "The need for immediate documentation following endoscopic interventions severely limited daily procedural room throughput and added significant administrative friction.", 
-      findings: "Voice-activated processing agents successfully captured real-time ambient inputs, formatting standardised reports without interrupting procedural workflows.", 
+      findings: "Voice-activated processing agents successfully captured real-time ambient inputs, formatting standardized reports without interrupting procedural workflows.", 
       proposed_solutions: "Establish a mandatory clinician review loop requiring a validation signature on the agent-generated text draft prior to PACS archiving.", 
       impact: "🎯 94% True Target Boundary Calibration and instantaneous post-procedural record drafting.", 
       src: "https://www.duomed.com/sites/default/files/styles/full_screen/public/copied_duomed_be/copied/2020-03/Endoflow%20II%20double%20cuve_1.png?itok=jn_tjNza&fitw=500&fitq=80" 
@@ -830,8 +893,8 @@
       type: "operational", 
       location: "United Kingdom (Cambridge)", 
       background: "Genomics sequencing infrastructure faced significant data interpretation bottlenecks due to the growing volume of raw variant lines needing analysis.", 
-      problem_statement: "Manual variant prioritisation requires extensive cross-referencing against global mutation datasets, severely delaying personalised diagnostic reports.", 
-      findings: "Automated variant prioritisation engines matched mutation lines with known clinical literature at high speed, filtering out benign structural noise.", 
+      problem_statement: "Manual variant prioritization requires extensive cross-referencing against global mutation datasets, severely delaying personalized diagnostic reports.", 
+      findings: "Automated variant prioritization engines matched mutation lines with known clinical literature at high speed, filtering out benign structural noise.", 
       proposed_solutions: "Utilise containerised cloud security protocols to manage high-velocity data cross-referencing against external variant libraries.", 
       impact: "🧬 310% Genomics Sequencing Velocity and accelerated variant significance mapping.", 
       src: "https://github.com/uPull-ai/web/blob/main/asset/images/Genetix.png?raw=true?w=500&q=80" 
@@ -878,10 +941,10 @@
       type: "operational", 
       location: "United Kingdom (Manchester)", 
       background: "Surgical departments experienced significant administrative overhead due to manual operating theater scheduling and frequent resource conflicts.", 
-      problem_statement: "Traditional static scheduling tools fail to adapt to variable room turnaround parameters, causing extensive delays and underutilised capacity.", 
-      findings: "Predictive deep-learning models dynamically optimised room utilisation timelines based on surgeon speed profiles and emergency caseloads.", 
+      problem_statement: "Traditional static scheduling tools fail to adapt to variable room turnaround parameters, causing extensive delays and underutilized capacity.", 
+      findings: "Predictive deep-learning models dynamically optimized room utilization timelines based on surgeon speed profiles and emergency caseloads.", 
       proposed_solutions: "Deploy an automated multi-parameter booking matrix that adjusts real-time theater allocations based on live case progression indicators.", 
-      impact: "H 24% Operating Theatre Capacity Boost and minimised procedural scheduling delays.", 
+      impact: "H 24% Operating Theatre Capacity Boost and minimized procedural scheduling delays.", 
       src: "https://news.virginia.edu/sites/default/files/Header-SF-LaborUnity-KW.jpg?w=500&q=80" 
     },
     { 
@@ -891,8 +954,8 @@
       location: "New Zealand (Auckland)", 
       background: "Emergency waiting areas faced severe patient overcrowding and prolonged clinical intake bottlenecks during peak consultation hours.", 
       problem_statement: "Manual frontline triage flows create major processing delays, lengthening the interval between arrival and diagnostic intervention.", 
-      findings: "Autonomous entry tracking nodes safely gathered preliminary patient complaints, accelerating downstream nurse prioritisation.", 
-      proposed_solutions: "Implement standardised intake screening workflows across digital clinical kiosks to automate early diagnostic triage categories.", 
+      findings: "Autonomous entry tracking nodes safely gathered preliminary patient complaints, accelerating downstream nurse prioritization.", 
+      proposed_solutions: "Implement standardized intake screening workflows across digital clinical kiosks to automate early diagnostic triage categories.", 
       impact: "⏳ 48% Corridor Congestion Relief and accelerated emergency room check-ins.", 
       src: "https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?w=500&q=80" 
     },
@@ -952,7 +1015,7 @@
       background: "Neurology departments in Munich faced long appointment waitlists due to slow, manually administered cognitive testing procedures.", 
       problem_statement: "Lengthy traditional paper-and-pen testing structures exhaust fragile patients and severely limit baseline diagnostic throughput.", 
       findings: "Digital tracking models captured micro-behavioral testing variations, streamlining early indicators of cognitive drift.", 
-      proposed_solutions: "Transition standardised testing models to automated interactive interfaces that log patient response variations in real-time.", 
+      proposed_solutions: "Transition standardized testing models to automated interactive interfaces that log patient response variations in real-time.", 
       impact: "🧩 Early Neurodegenerative Isolation with a 35% reduction in administrative testing overhead.", 
       src: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=500&q=80" 
     },
@@ -1012,7 +1075,7 @@
       background: "Stroke specialty clinics faced critical time delays waiting for manual confirmation of urgent cranial CT angiogram scans.", 
       problem_statement: "Extended image review queues in busy trauma settings delay vital time-critical stroke treatment windows.", 
       findings: "Deep learning imaging models scanned cranial CT data rapidly, identifying early ischemia signs and vascular blocks.", 
-      proposed_solutions: "Deploy an image prioritisation loop that moves scans with suspected occlusion markers to the front of the radiologist queue.", 
+      proposed_solutions: "Deploy an image prioritization loop that moves scans with suspected occlusion markers to the front of the radiologist queue.", 
       impact: "🧠 18-Min Triage Notification drop to protect critical neurological function.", 
       src: "https://images.unsplash.com/photo-1587560699334-cc4ff634909a?w=500&q=80" 
     },
@@ -1109,6 +1172,7 @@
   // filter
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', function() {
+      routeTab('library');
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active-filter'));
       this.classList.add('active-filter');
       const target = this.dataset.target;
@@ -1142,8 +1206,8 @@
   const metric = document.getElementById('returnMetric');
   slider.addEventListener('input', function() {
     const val = parseInt(this.value);
-    label.textContent = '£' + val.toLocaleString('en-GB');
-    metric.textContent = '£' + (val * 5).toLocaleString('en-GB');
+    label.textContent = '£' + val.toLocaleString('en-US');
+    metric.textContent = '£' + (val * 5).toLocaleString('en-US');
   });
 
   window.onload = function() {
