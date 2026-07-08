@@ -68,6 +68,7 @@
     .dropdown-menu button, .dropdown-menu a {
       background: transparent; color: var(--ink); padding: 0.6rem 1.2rem; font-size: 0.9rem; 
       display: block; width: 100%; text-align: left; border: none; font-weight: 500; border-radius: 0;
+      cursor: pointer; transition: background-color 0.2s;
     }
     .dropdown-menu button:hover, .dropdown-menu a:hover { background-color: var(--bg); color: var(--nhs-blue); transform: none; }
     .nav-item:hover .dropdown-menu { display: block; }
@@ -141,7 +142,7 @@
 </head>
 <body>
 
-  <!-- Aligned Template Header (Shifting Menus and Right Functions) -->
+  <!-- Aligned Template Header -->
   <header>
     <div class="nav-container">
       <a href="index.html" class="logo">uPull<span>.ai</span></a>
@@ -153,8 +154,8 @@
           <li class="nav-item">
             <a href="roi.html" class="current-page">ROI Calculator ▾</a>
             <div class="dropdown-menu">
-              <button onclick="resetAll()">Reset Calculator</button>
-              <button onclick="window.print()">Print / Save PDF</button>
+              <button onclick="resetAll()">Clear Form</button>
+              <button onclick="window.print()">Save / Submit PDF</button>
             </div>
           </li>
           <li class="nav-item"><a href="faqs.html">FAQs</a></li>
