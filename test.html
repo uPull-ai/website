@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
@@ -258,20 +257,35 @@ h1.hero-title span{color:var(--orange);}
 /* ── TEAM ─────────────────────────────────────────────────── */
     .team-grid {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem;
+      align-items: stretch;
     }
-    @media (min-width: 600px) { .team-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 700px) { .team-grid { grid-template-columns: 1fr; } }
     .team-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       background: rgba(255,255,255,0.03);
-      padding: 2rem 1.2rem;
+      padding: 2rem 1.5rem;
       border-radius: 8px;
       border: 1px solid var(--border);
       text-align: center;
+      box-sizing: border-box;
     }
-    .team-card:first-of-type { border-top-color: var(--accent-orange); }
-    .member-avatar { width: 90px; height: 90px; object-fit: cover; border-radius: 50%; margin: 0 auto 1rem auto; background: #1a2035; border: 2px solid var(--orange); display: block; }
-    .member-role { color: var(--accent-orange); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .team-card h3 { font-family: var(--font-h); font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 3px; }
+    .team-card p  { font-size: 0.875rem; color: var(--muted, #8b93a8); flex: 1; }
+    .member-avatar {
+      width: 96px; height: 96px;
+      object-fit: cover; object-position: top;
+      border-radius: 50%;
+      margin: 0 auto 1.2rem auto;
+      background: #1a2035;
+      border: 2px solid var(--orange);
+      display: block;
+      flex-shrink: 0;
+    }
+    .member-role { color: var(--orange); font-weight: 700; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem; }
     .funnel-banner {
       background: linear-gradient(135deg, var(--nhs-blue), var(--primary-navy));
       color: #ffffff;
@@ -635,23 +649,35 @@ footer{
 <div class="divider"></div>
 
 <!-- ══ TEAM ══ -->
-    <section id="leadership">
+    <section id="team">
+      <div class="wrap">
       <div class="label">The Team</div>
       <h2 class="section-title">Built by NHS <span style="color:var(--orange);">Insiders</span></h2>
       <p class="section-subtitle">Dedicated to frontline-led digital capability, AI assurance, and transforming the NHS from within.</p>
       <div class="team-grid">
+
         <article class="team-card">
-          <img src="https://github.com/a1exch3ung/uPull.ai/blob/main/1628754257220.jpeg?raw=true&auto=format&fit=crop&w=200&h=200&q=80" alt="Alex" class="member-avatar" loading="lazy">
-          <h3>Alex Cheung</h3><div class="member-role">Co-Founder & CEO</div><p style="font-size:0.9rem; color:var(--text-muted);">Community builder with technology and program management experience, delivering large-scale programs and digital transformation.</p>
+          <img src="https://github.com/a1exch3ung/uPull.ai/blob/main/1628754257220.jpeg?raw=true" alt="Alex Cheung" class="member-avatar" loading="lazy">
+          <h3>Alex Cheung</h3>
+          <div class="member-role">Co-Founder &amp; CEO</div>
+          <p>Community builder and technology visionary specialising in frontline-led capability building, AI governance, and maturity scoring of autonomous systems.</p>
         </article>
+
         <article class="team-card">
-          <img src="https://www.digitalhealth.net/wp-content/uploads/2025/11/Hassan-Chaudhury-1-1.jpeg.webp?auto=format&fit=crop&w=200&h=200&q=80" alt="Hassan" class="member-avatar" loading="lazy">
-          <h3>Hassan Chaudry</h3><div class="member-role">Co-Founder & CCO</div><p style="font-size:0.9rem; color:var(--text-muted);">Healthcare innovation and commercial strategy leader with extensive experience in digital health, data, and life sciences.</p>
+          <img src="https://www.digitalhealth.net/wp-content/uploads/2025/11/Hassan-Chaudhury-1-1.jpeg.webp" alt="Hassan Chaudry" class="member-avatar" loading="lazy">
+          <h3>Hassan Chaudry</h3>
+          <div class="member-role">Co-Founder &amp; CCO</div>
+          <p>Healthcare innovation and commercial strategy leader with extensive experience in digital health, data, and life sciences across NHS systems.</p>
         </article>
+
         <article class="team-card">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMJHlcCAyat6G1PhHEPMudzD9-vNMWJvT569mkWDWZFQ&s&auto=format&fit=crop&w=200&h=200&q=80" alt="Suki" class="member-avatar" loading="lazy">
-          <h3>Suki Panesar</h3><div class="member-role">Co-Founder & Chief Strategist</div><p style="font-size:0.9rem; color:var(--text-muted);">Healthcare strategist and innovation leader with years of experience in technology, data, and AI to improve patient care.</p>
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMJHlcCAyat6G1PhHEPMudzD9-vNMWJvT569mkWDWZFQ&s" alt="Suki Panesar" class="member-avatar" loading="lazy">
+          <h3>Suki Panesar</h3>
+          <div class="member-role">Co-Founder &amp; Chief Strategist</div>
+          <p>Healthcare strategist and innovation leader with years of experience applying technology, data, and AI to improve patient care and operational flow.</p>
         </article>
+
+      </div>
       </div>
     </section>
 
@@ -667,7 +693,7 @@ footer{
       <input class="cta-input" type="email" placeholder="Work email address" aria-label="Work email address"/>
       <button class="btn btn-primary" onclick="handleWaitlist(event)">Join the Waitlist</button>
     </div>
-    <p class="cta-note">NHS organisations only. Cohort places are limited — we assess fit before onboarding.</p>
+    <p class="cta-note">Cohort places are limited — we assess fit before onboarding.</p>
   </div>
 </section>
 
