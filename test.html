@@ -1,251 +1,60 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-  <title>uPull.ai | Scaling People to Bridge the NHS Digital Delivery Gap</title>
-  <style>
-    :root{
-      --primary-navy:#0A192F;
-      --nhs-blue:#005EB8;
-      --accent-orange:#ED8B00;
-      --bg-light:#F8FAFC;
-      --card-bg:#FFFFFF;
-      --text-dark:#1E293B;
-      --text-muted:#64748B;
-      --border-color:#E2E8F0;
-      --clinical:#0D9488;
-      --operational:#EA580C;
-      --white:#FFFFFF;
-      --shadow:0 18px 50px rgba(10,25,47,.10);
-    }
+<!-- ══════════════════════════════════════ FOUNDERS ══ -->
+<section id="founders" class="section">
+  <div class="section-inner">
+    <div class="section-label">Our Team</div>
+    <h2 class="section-title" style="text-align:center;">Our Visionaries &amp; <span>Leaders</span></h2>
+    <p style="text-align:center; color:var(--text-muted); max-width:600px; margin:0 auto 3rem; line-height:1.7;">Dedicated to frontline-led digital capability and safety.</p>
 
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{
-      background:linear-gradient(180deg,#f8fbff 0%,#eef6fc 100%);
-      color:var(--text-dark);
-      line-height:1.6;
-      font-family:Segoe UI,Roboto,system-ui,-apple-system,sans-serif;
-      overflow-x:hidden;
-    }
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:2rem; margin-bottom:3rem;">
 
-    a{text-decoration:none;color:inherit}
-    img{max-width:100%;display:block}
+      <!-- Alex Cheung -->
+      <div class="reveal" style="background:rgba(255,255,255,0.04); border:1px solid rgba(232,112,10,0.25); border-radius:6px; padding:2rem;">
+        <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1.2rem;">
+          <div style="width:56px; height:56px; border-radius:50%; background:var(--orange); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <span style="font-family:'Rajdhani',sans-serif; font-weight:700; font-size:1.3rem; color:#fff;">AC</span>
+          </div>
+          <div>
+            <div style="font-family:'Rajdhani',sans-serif; font-size:1.2rem; font-weight:700; color:#fff;">Alex Cheung</div>
+            <div style="font-size:0.8rem; color:var(--orange); font-weight:600; letter-spacing:0.05em; text-transform:uppercase;">Co-Founder</div>
+          </div>
+        </div>
+        <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.7;">
+          Alex Cheung is an accomplished community builder and technology visionary dedicated to leading sustainable digital transformation initiatives. With an extensive background in orchestrating digital community frameworks and executing complex technology strategies within the healthcare sector, Alex specialises in moving organisations away from rigid IT procurement toward frontline-led capability building. His work focuses heavily on the governance, technical auditing, and maturity scoring of AI agents to ensure autonomous systems remain safe, compliant, and deeply embedded into operational workflows.
+        </p>
+      </div>
 
-    header{
-      position:sticky;top:0;z-index:1000;
-      background:rgba(10,25,47,.96);
-      backdrop-filter:blur(14px);
-      border-bottom:3px solid var(--nhs-blue);
-      box-shadow:0 4px 18px rgba(0,0,0,.12);
-    }
-    .nav-container{
-      max-width:1200px;margin:0 auto;padding:1rem 5%;
-      display:flex;align-items:center;justify-content:space-between;gap:1rem;
-    }
-    .logo{
-      color:#fff;font-size:1.6rem;font-weight:800;letter-spacing:-.5px;
-      display:inline-flex;align-items:center;gap:.2rem;flex-shrink:0;
-    }
-    .logo span{color:var(--accent-orange)}
-    .nav-stack{display:flex;flex-direction:column;align-items:flex-end;gap:.45rem;min-width:0}
-    nav{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1rem;justify-content:flex-end;overflow-x:auto}
-    nav a{
-      color:#fff;font-weight:500;font-size:.95rem;opacity:.9;padding:.25rem 0;
-      transition:color .2s,opacity .2s;
-      white-space:nowrap;
-    }
-    nav a:hover,nav a.active-tab{color:var(--accent-orange);opacity:1}
-    .sub-nav{
-      display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;
-      gap:.35rem .8rem;padding-top:.25rem;border-top:1px solid rgba(255,255,255,.14)
-    }
-    .sub-nav a,.sub-nav button{
-      color:#cbd5e1;font-size:.82rem;font-weight:500;background:transparent;border:0;
-      cursor:pointer;padding:.25rem 0;white-space:nowrap;
-    }
-    .sub-nav a:hover,.sub-nav button:hover,.sub-nav a.active-filter,.sub-nav button.active-filter{color:var(--accent-orange)}
-    .cta-btn{
-      background:var(--accent-orange);color:#fff;padding:.62rem 1.15rem;border-radius:4px;
-      font-weight:700;border:none;cursor:pointer;display:inline-block;transition:transform .15s,background .2s;
-      white-space:nowrap;font-size:.9rem;
-    }
-    .cta-btn:hover{background:#d86b08;transform:translateY(-1px)}
+      <!-- Hassan Chaudry -->
+      <div class="reveal" style="background:rgba(255,255,255,0.04); border:1px solid rgba(232,112,10,0.25); border-radius:6px; padding:2rem;">
+        <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1.2rem;">
+          <div style="width:56px; height:56px; border-radius:50%; background:var(--orange); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <span style="font-family:'Rajdhani',sans-serif; font-weight:700; font-size:1.3rem; color:#fff;">HC</span>
+          </div>
+          <div>
+            <div style="font-family:'Rajdhani',sans-serif; font-size:1.2rem; font-weight:700; color:#fff;">Hassan Chaudry</div>
+            <div style="font-size:0.8rem; color:var(--orange); font-weight:600; letter-spacing:0.05em; text-transform:uppercase;">Co-Founder</div>
+          </div>
+        </div>
+        <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.7;">
+          Healthcare innovation and commercial strategy leader with extensive experience in digital health, data, and life sciences. Hassan brings deep expertise in translating complex clinical and operational challenges into scalable AI-driven solutions that deliver measurable outcomes across healthcare systems.
+        </p>
+      </div>
 
-    main{max-width:1200px;margin:0 auto;padding:0 5%}
-    section{padding:4rem 0;border-bottom:1px solid var(--border-color)}
-    .section-title{
-      text-align:center;font-size:clamp(2rem,4vw,3rem);color:var(--primary-navy);
-      margin-bottom:.5rem;font-weight:800;letter-spacing:-.5px
-    }
-    .section-subtitle{
-      text-align:center;color:var(--text-muted);font-size:1rem;max-width:800px;margin:0 auto 2rem;
-      line-height:1.55;padding:0 1rem
-    }
+      <!-- Suki Panesar -->
+      <div class="reveal" style="background:rgba(255,255,255,0.04); border:1px solid rgba(232,112,10,0.25); border-radius:6px; padding:2rem;">
+        <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1.2rem;">
+          <div style="width:56px; height:56px; border-radius:50%; background:var(--orange); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <span style="font-family:'Rajdhani',sans-serif; font-weight:700; font-size:1.3rem; color:#fff;">SP</span>
+          </div>
+          <div>
+            <div style="font-family:'Rajdhani',sans-serif; font-size:1.2rem; font-weight:700; color:#fff;">Suki Panesar</div>
+            <div style="font-size:0.8rem; color:var(--orange); font-weight:600; letter-spacing:0.05em; text-transform:uppercase;">Co-Founder</div>
+          </div>
+        </div>
+        <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.7;">
+          Healthcare strategist and innovation leader with years of experience in technology, data, and AI to improve patient care. Suki bridges the gap between clinical frontline realities and enterprise-level digital transformation, championing people-centred AI adoption across NHS organisations.
+        </p>
+      </div>
 
-    .hero-banner{
-      background:
-        linear-gradient(135deg, rgba(10,25,47,.92), rgba(10,25,47,.82)),
-        url("https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=1400&q=80") center/cover no-repeat;
-      color:#fff;border-radius:18px;padding:2rem;display:grid;grid-template-columns:1fr;gap:2rem;
-      align-items:center;box-shadow:var(--shadow);overflow:hidden;position:relative;
-    }
-    @media (min-width: 900px){
-      .hero-banner{grid-template-columns:1.08fr .92fr;padding:4rem}
-    }
-    .hero-left h1{
-      font-size:clamp(2.3rem,5vw,4.8rem);line-height:1.02;margin-bottom:1rem;font-weight:800;letter-spacing:-.5px;
-      max-width:12ch;
-    }
-    .hero-left p{
-      opacity:.92;font-size:1.05rem;margin-bottom:1.7rem;max-width:700px
-    }
-    .hero-actions{display:flex;flex-wrap:wrap;gap:.9rem}
-    .hero-right{
-      align-self:stretch;display:flex;align-items:center;justify-content:center;
-    }
-    .crisis-card{
-      width:100%;
-      background:rgba(255,255,255,.08);backdrop-filter:blur(12px);
-      border:1px solid rgba(255,255,255,.16);padding:1.6rem;border-radius:14px;
-      border-left:6px solid var(--accent-orange);text-align:center;
-      box-shadow:0 16px 30px rgba(0,0,0,.18);
-    }
-    .vise-title{
-      font-size:.8rem;text-transform:uppercase;letter-spacing:2px;color:var(--accent-orange);
-      margin-bottom:.75rem;font-weight:700
-    }
-    .vise-core{
-      border:2px dashed rgba(255,255,255,.2);padding:1rem;margin:1rem 0;background:rgba(237,139,0,.12);
-      font-weight:800;font-size:1.05rem;border-radius:10px
-    }
-    .pulse-row{
-      display:flex;justify-content:center;gap:.65rem;flex-wrap:wrap;margin-top:.9rem
-    }
-    .pulse{
-      width:11px;height:11px;border-radius:50%;background:var(--accent-orange);box-shadow:0 0 0 0 rgba(237,139,0,.55);
-      animation:pulse 1.8s infinite ease-out;
-    }
-    .pulse:nth-child(2){animation-delay:.2s}.pulse:nth-child(3){animation-delay:.4s}
-    @keyframes pulse{
-      0%{box-shadow:0 0 0 0 rgba(237,139,0,.45)}
-      70%{box-shadow:0 0 0 12px rgba(237,139,0,0)}
-      100%{box-shadow:0 0 0 0 rgba(237,139,0,0)}
-    }
-
-    .pressures-grid{
-      display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;
-      margin-top:1rem;
-    }
-    .pressure-card{
-      background:#fff;padding:1.4rem;border-radius:14px;border-top:4px solid var(--nhs-blue);
-      box-shadow:0 8px 24px rgba(15,23,42,.06);border-left:1px solid var(--border-color);
-      transform:translateY(0);transition:transform .25s,box-shadow .25s;
-    }
-    .pressure-card:hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(15,23,42,.09)}
-    .pressure-icon{
-      width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,rgba(0,94,184,.1),rgba(237,139,0,.12));
-      display:grid;place-items:center;font-size:1.35rem;margin-bottom:1rem;border:1px solid rgba(0,94,184,.08)
-    }
-    .pressure-card h3{color:var(--primary-navy);font-size:1.08rem;margin-bottom:.45rem}
-    .pressure-card p{color:var(--text-muted);font-size:.95rem}
-
-    .split-grid{
-      display:grid;grid-template-columns:1fr;gap:1.4rem;
-    }
-    @media (min-width: 840px){
-      .split-grid{grid-template-columns:1fr 1fr}
-    }
-    .model-box{
-      padding:1.4rem;border-radius:16px;background:#fff;box-shadow:var(--shadow);
-      display:flex;flex-direction:column;border:1px solid var(--border-color);position:relative;overflow:hidden;
-      min-height:100%;
-    }
-    .model-box:before{
-      content:"";position:absolute;inset:auto -40px -40px auto;width:180px;height:180px;border-radius:50%;
-      background:radial-gradient(circle, rgba(0,94,184,.08), transparent 68%);
-    }
-    .model-box.push{border-top:6px solid #cbd5e1}
-    .model-box.pull{border-top:6px solid var(--accent-orange);background:#fffdf9}
-    .model-image{
-      width:100%;height:190px;object-fit:cover;border-radius:12px;margin-bottom:1.1rem;background:#e2e8f0
-    }
-    .quote-box{
-      font-style:italic;border-left:3px solid var(--text-muted);padding-left:1rem;margin:1rem 0;color:var(--text-muted)
-    }
-
-    .roadmap{
-      display:grid;grid-template-columns:1fr;gap:1.2rem;
-    }
-    @media (min-width: 760px){
-      .roadmap{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-    }
-    .step-card{
-      background:#fff;padding:1.45rem 1.35rem;border-radius:16px;position:relative;box-shadow:var(--shadow);
-      border:1px solid var(--border-color);overflow:hidden;min-height:220px;
-    }
-    .step-card:after{
-      content:"";position:absolute;right:-40px;top:-40px;width:120px;height:120px;border-radius:50%;
-      background:radial-gradient(circle, rgba(0,94,184,.08), transparent 70%);
-    }
-    .step-badge{
-      position:absolute;top:-12px;left:20px;background:var(--primary-navy);color:#fff;padding:.2rem .95rem;
-      border-radius:20px;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.4px
-    }
-    .step-card.active .step-badge{background:var(--accent-orange)}
-    .step-card h3{margin-top:1rem;color:var(--primary-navy);font-size:1.25rem}
-    .step-card p{color:var(--text-muted);margin-top:.65rem}
-    .step-metric{margin-top:1rem;font-weight:800;color:var(--accent-orange)}
-
-    .interactive-calculator{
-      background:linear-gradient(135deg, var(--primary-navy), #0f2a52);
-      color:#fff;border-radius:18px;padding:2.2rem 1.4rem;text-align:center;box-shadow:var(--shadow)
-    }
-    .interactive-calculator p{opacity:.88;max-width:720px;margin:0 auto 1rem}
-    .range-slider{
-      -webkit-appearance:none;width:100%;background:rgba(255,255,255,.2);border-radius:5px;height:8px;outline:none;
-      margin:1.5rem 0;
-    }
-    .range-slider::-webkit-slider-thumb{
-      -webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--accent-orange);cursor:pointer
-    }
-    .calc-grid{
-      display:grid;grid-template-columns:1fr;gap:1rem;margin-top:1rem
-    }
-    @media (min-width: 760px){
-      .calc-grid{grid-template-columns:repeat(2,1fr)}
-    }
-    .calc-metric{
-      font-size:2.2rem;font-weight:800;color:var(--accent-orange);line-height:1
-    }
-    .calc-label{opacity:.75;font-size:.82rem;letter-spacing:.3px;text-transform:uppercase;margin-bottom:.35rem}
-
-    .case-preview-grid{
-      display:grid;grid-template-columns:1fr;gap:1.4rem;
-    }
-    @media (min-width: 760px){
-      .case-preview-grid{grid-template-columns:repeat(2,1fr)}
-    }
-    .case-preview-card{
-      background:#fff;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border-color)
-    }
-    .case-preview-banner{
-      height:210px;width:100%;object-fit:cover;background:#cbd5e1
-    }
-    .case-preview-content{padding:1.35rem}
-    .case-tag{
-      display:inline-block;background:#e0f2fe;color:var(--nhs-blue);padding:.22rem .7rem;border-radius:4px;
-      font-size:.7rem;font-weight:800;margin-bottom:.55rem;text-transform:uppercase;letter-spacing:.35px
-    }
-
-    .filter-shelf{
-      display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;margin:-.5rem auto 2rem
-    }
-    .filter-btn{
-      padding:.42rem 1.15rem;border:1px solid var(--border-color);background:#fff;border-radius:30px;
-      font-weight:700;font-size:.85rem;cursor:pointer;transition:all .2s
-    }
-    .filter-btn.active-filter,.filter-btn:hover{background:var(--primary-navy);color:#fff;border-color:var(--primary-navy)}
-    .library-grid{
-      dis
+    </div>
+  </div>
+</section>
