@@ -255,30 +255,34 @@ h1.hero-title span{color:var(--orange);}
 .faq-a-text{font-size:0.875rem;color:var(--muted);line-height:1.75;max-width:none;}
 
 /* ── TEAM ─────────────────────────────────────────────────── */
-#team{background:var(--navy);}
-.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
-.team-card{
-  border:1px solid var(--border);border-radius:var(--r);padding:1.8rem;
-  background:rgba(255,255,255,0.02);
-}
-.team-avatar{
-  width:52px;height:52px;border-radius:50%;
-  background:var(--orange);display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-h);font-size:1.15rem;font-weight:700;color:#fff;
-  margin-bottom:1rem;
-}
-.team-card h3{font-family:var(--font-h);font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:3px;}
-.team-role{font-size:0.7rem;font-weight:700;color:var(--orange);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.8rem;}
-.team-card p{font-size:0.875rem;color:var(--muted);max-width:none;}
-
-/* Photo card */
-.team-photo-card{
-  border:1px solid rgba(232,112,10,0.3);border-radius:var(--r);
-  overflow:hidden;background:rgba(232,112,10,0.04);
-}
-.team-photo{width:100%;aspect-ratio:1;object-fit:cover;object-position:top;display:block;}
-.team-photo-info{padding:1.2rem 1.5rem;}
-
+    .team-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    @media (min-width: 600px) { .team-grid { grid-template-columns: repeat(3, 1fr); } }
+    .team-card {
+      background: #ffffff;
+      padding: 2rem 1.2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
+      text-align: center;
+      border-top: 4px solid var(--border-color);
+    }
+    .team-card:first-of-type { border-top-color: var(--accent-orange); }
+    .member-avatar { width: 90px; height: 90px; object-fit: cover; border-radius: 50%; margin: 0 auto 1rem auto; background: #e2e8f0; }
+    .member-role { color: var(--accent-orange); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .funnel-banner {
+      background: linear-gradient(135deg, var(--nhs-blue), var(--primary-navy));
+      color: #ffffff;
+      text-align: center;
+      padding: 3rem 5%;
+      border-radius: 12px;
+    }
+    .funnel-steps { display: flex; flex-wrap: wrap; gap: 1.5rem; margin: 2rem 0; justify-content: center; }
+    .funnel-step { flex: 1; min-width: 160px; background: rgba(255,255,255,0.08); padding: 1.2rem; border-radius: 8px; }
+    .funnel-step num { display: block; font-size: 2.2rem; font-weight: 800; color: var(--accent-orange); }
+    .hidden { display: none !important; }
 /* ── CTA ──────────────────────────────────────────────────── */
 #cta{
   background:
