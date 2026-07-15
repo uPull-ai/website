@@ -6,6 +6,7 @@
   <title>uPull.ai — Frequently Asked Questions</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif; scroll-behavior: smooth; }
+    html { scroll-padding-top: 96px; }
     :root {
       --primary-navy: #0A192F;
       --nhs-blue: #005EB8;
@@ -105,7 +106,7 @@
     .faq-sidebar a { display: block; color: var(--text-dark); text-decoration: none; padding: 0.65rem 0.75rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; }
     .faq-sidebar a:hover { background: var(--bg-light); color: var(--nhs-blue); }
 
-    .faq-group { margin-bottom: 2rem; }
+    .faq-group { margin-bottom: 2rem; scroll-margin-top: 96px; }
     .faq-group h2 { font-size: 1.35rem; color: var(--primary-navy); margin-bottom: 0.3rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-color); }
     .faq-group > p { color: var(--text-muted); font-size: 0.9rem; margin: 0.5rem 0 1rem; }
 
@@ -142,6 +143,10 @@
     .ask-note { font-size: 0.8rem; opacity: 0.85; }
 
     footer { background: #09111e; color: #94a3b8; padding: 2rem 5%; text-align: center; font-size: 0.85rem; margin-top: 3rem; }
+
+    @media (max-width: 899px) {
+      .faq-sidebar { position: static; top: auto; }
+    }
 
     @media (max-width: 767px) {
       .nav-toggle { display: block; }
