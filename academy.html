@@ -564,11 +564,23 @@ window.onload = function() {
   handleDeepLink();
 };
 
-// ══ DEEP LINKING: #course-c5 or #cs-CS3 jumps to the right tab + card ══
+// ══ DEEP LINKING: #course-c5, #cs-CS3, #tab-learning, #tab-casestudies ══
 function handleDeepLink() {
   const hash = window.location.hash.replace('#', '');
   if (!hash) return;
   const btns = document.querySelectorAll('.tab-bar .tab-btn');
+
+  if (hash === 'tab-learning') {
+    switchTab('learning', btns[0]);
+    document.querySelector('.tab-bar')?.scrollIntoView({behavior:'smooth', block:'start'});
+    return;
+  }
+  if (hash === 'tab-casestudies') {
+    switchTab('casestudies', btns[1]);
+    document.querySelector('.tab-bar')?.scrollIntoView({behavior:'smooth', block:'start'});
+    return;
+  }
+
   if (hash.startsWith('course-')) {
     switchTab('learning', btns[0]);
   } else if (hash.startsWith('cs-')) {
