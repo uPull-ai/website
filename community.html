@@ -518,12 +518,22 @@
 
     // Expose what the rest of the page's plain <script> needs, since that
     // script isn't a module and can't use import/export directly.
+    //
+    // IMPORTANT: this <script type="module"> tag is deferred by the browser —
+    // it only runs AFTER the whole page has been parsed. A plain, non-module
+    // <script> lower down the page runs immediately when the parser reaches
+    // it, which is BEFORE this one finishes. So instead of just setting
+    // window.__firebase and hoping the timing works out, we also fire an
+    // event once it's actually ready, and set a flag the other script can
+    // check directly in case it runs even later.
     window.__firebase = {
       db, auth, googleProvider,
       collection, addDoc, doc, updateDoc, increment,
       query, orderBy, onSnapshot, serverTimestamp,
       signInWithPopup, signOut, onAuthStateChanged
     };
+    window.__firebaseReady = true;
+    window.dispatchEvent(new Event('firebaseReady'));
   </script>
 </head>
 <body>
@@ -856,16 +866,21 @@
 </footer>
 
 <script>
-  const {
-    db, auth, googleProvider,
-    collection, addDoc, doc, updateDoc, increment,
-    query, orderBy, onSnapshot, serverTimestamp,
-    signInWithPopup, signOut, onAuthStateChanged
-  } = window.__firebase;
-
   let livePosts = [];
   let currentFilter = 'all';
   let currentUser = null;
+
+  // Lazy accessor: always reads window.__firebase fresh at call time, so it
+  // doesn't matter whether this script or the Firebase module finishes
+  // loading first — by the time a user actually clicks something, or the
+  // 'firebaseReady' event has fired, it will be there.
+  function fb() {
+    if (!window.__firebase) {
+      console.error('Firebase is not ready yet. Please wait a moment and try again.');
+      return null;
+    }
+    return window.__firebase;
+  }
 
   // Routing Logic
   function switchView(targetView) {
@@ -880,17 +895,27 @@
 
   // ══ AUTHENTICATION ══
   function signInWithGoogle() {
-    signInWithPopup(auth, googleProvider).catch(err => {
+    const f = fb();
+    if (!f) { alert('Still connecting to sign-in — please wait a second and try again.'); return; }
+    f.signInWithPopup(f.auth, f.googleProvider).catch(err => {
       console.error('Sign-in failed:', err);
-      alert('Sign-in did not complete. Please try again.');
+      if (err.code === 'auth/unauthorized-domain') {
+        alert('This domain is not yet authorized for sign-in. Add it in Firebase Console → Authentication → Settings → Authorized domains.');
+      } else if (err.code === 'auth/popup-blocked') {
+        alert('Your browser blocked the sign-in popup. Please allow popups for this site and try again.');
+      } else if (err.code !== 'auth/popup-closed-by-user' && err.code !== 'auth/cancelled-popup-request') {
+        alert('Sign-in did not complete (' + err.code + '). Please try again.');
+      }
     });
   }
 
   function signOutUser() {
-    signOut(auth).catch(err => console.error('Sign-out failed:', err));
+    const f = fb();
+    if (!f) return;
+    f.signOut(f.auth).catch(err => console.error('Sign-out failed:', err));
   }
 
-  onAuthStateChanged(auth, user => {
+  function updateAuthUI(user) {
     currentUser = user;
     const signedOutEl = document.getElementById('authSignedOut');
     const signedInEl = document.getElementById('authSignedIn');
@@ -919,13 +944,13 @@
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sign in to post';
     }
-    // Re-render so like buttons reflect the current sign-in state too.
     renderForum(currentFilter);
-  });
+  }
 
   // Generate Forum View
   function renderForum(filterCategory = 'all') {
     const streamContainer = document.getElementById('forum-feed-target');
+    if (!streamContainer) return;
     streamContainer.innerHTML = '';
     currentFilter = filterCategory;
 
@@ -977,12 +1002,16 @@
 
   function likePost(id) {
     if (!currentUser) { alert('Sign in to like a post.'); return; }
-    updateDoc(doc(db, 'posts', id), { likes: increment(1) })
+    const f = fb();
+    if (!f) return;
+    f.updateDoc(f.doc(f.db, 'posts', id), { likes: f.increment(1) })
       .catch(err => console.error('Failed to like post:', err));
   }
 
   function submitPost() {
     if (!currentUser) { alert('Sign in to post.'); return; }
+    const f = fb();
+    if (!f) { alert('Still connecting — please wait a second and try again.'); return; }
 
     const textValue = document.getElementById('postText').value;
     const selectCategory = document.getElementById('postCategory').value;
@@ -996,14 +1025,14 @@
     submitBtn.disabled = true;
     submitBtn.textContent = 'Posting…';
 
-    addDoc(collection(db, 'posts'), {
+    f.addDoc(f.collection(f.db, 'posts'), {
       uid: currentUser.uid,
       user: currentUser.displayName || currentUser.email || 'Community member',
       role: 'Community Member',
       cat: selectCategory,
       text: textValue,
       likes: 0,
-      createdAt: serverTimestamp()
+      createdAt: f.serverTimestamp()
     }).then(() => {
       document.getElementById('postText').value = '';
       document.querySelectorAll('.forum-menu-item').forEach(item => item.classList.remove('active-menu'));
@@ -1030,26 +1059,41 @@
     return days + (days === 1 ? ' day ago' : ' days ago');
   }
 
-  // ══ LIVE SYNC: every visitor's browser reads the same shared feed ══
-  onSnapshot(query(collection(db, 'posts'), orderBy('createdAt', 'desc')), snapshot => {
-    livePosts = snapshot.docs.map(d => {
-      const data = d.data();
-      return {
-        id: d.id,
-        user: data.user,
-        role: data.role,
-        cat: data.cat,
-        text: data.text,
-        likes: data.likes || 0,
-        time: timeAgo(data.createdAt ? data.createdAt.toDate() : null)
-      };
+  // ══ WIRE UP THE LIVE LISTENERS — but only once Firebase has actually
+  // finished loading. Handles both possible orderings safely. ══
+  function initFirebaseForum() {
+    const f = fb();
+    if (!f) return;
+
+    f.onAuthStateChanged(f.auth, updateAuthUI);
+
+    f.onSnapshot(f.query(f.collection(f.db, 'posts'), f.orderBy('createdAt', 'desc')), snapshot => {
+      livePosts = snapshot.docs.map(d => {
+        const data = d.data();
+        return {
+          id: d.id,
+          user: data.user,
+          role: data.role,
+          cat: data.cat,
+          text: data.text,
+          likes: data.likes || 0,
+          time: timeAgo(data.createdAt ? data.createdAt.toDate() : null)
+        };
+      });
+      renderForum(currentFilter);
+    }, err => {
+      console.error('Live forum connection failed:', err);
+      const target = document.getElementById('forum-feed-target');
+      if (target) target.innerHTML =
+        '<p style="text-align:center; opacity:0.6; padding:2rem;">Unable to connect to the live forum right now. Please refresh, or check back shortly.</p>';
     });
-    renderForum(currentFilter);
-  }, err => {
-    console.error('Live forum connection failed:', err);
-    document.getElementById('forum-feed-target').innerHTML =
-      '<p style="text-align:center; opacity:0.6; padding:2rem;">Unable to connect to the live forum right now. Please refresh, or check back shortly.</p>';
-  });
+  }
+
+  if (window.__firebaseReady) {
+    initFirebaseForum();
+  } else {
+    window.addEventListener('firebaseReady', initFirebaseForum);
+  }
 
   window.onload = function() {
     document.getElementById('forum-feed-target').innerHTML =
