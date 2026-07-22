@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>uPull.ai — uCollabX</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Roboto,system-ui,-apple-system,sans-serif;scroll-behavior:smooth}
+    body{background:#F8FAFC;color:#1E293B;line-height:1.6}
+    :root{
+      --navy:#0A192F;--blue:#005EB8;--blue-rgb:0,94,184;--orange:#E65F2B;--orange-hover:#c54f20;--bg:#F8FAFC;
+      --card:#ffffff;--muted:#64748B;--border:#E2E8F0;
+      --agentic:#7c3aed;--ambient:#0284c7;--clinical-tag:#0d9488;--robotic:#dc2626;
+      --status-proven:#16a34a;--status-provisional:#d97706;--status-review:#64748B;--status-needs:#dc2626;
+    }
+    header{background:var(--navy);padding:1rem 5%;position:sticky;top:0;z-index:1000;border-bottom:3px solid var(--blue);box-shadow:0 4px 6px -1px rgba(0,0,0,.1)}
+    .nav-container{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;flex-wrap:wrap;gap:.5rem}
+    .nav-right{display:flex;align-items:center;gap:18px}
+    .logo{color:#fff;font-size:1.6rem;font-weight:800;text-decoration:none;letter-spacing:-0.5px}
+    .logo span{color:var(--orange)}
+    .logo-tag{font-size:.8rem;background:rgba(255,255,255,.1);padding:.2rem .5rem;border-radius:4px;margin-left:.5rem;vertical-align:middle;color:#cbd5e1}
+    .nav-menu{display:flex;align-items:center;gap:2px;list-style:none;margin:0;padding:0}
+    .nav-item{position:relative}
+    .nav-link-item{display:flex;align-items:center;gap:6px;padding:.6rem .9rem;border-radius:999px;background:none;border:none;cursor:pointer;color:#fff;font-size:.9rem;font-weight:600;font-family:inherit;transition:color .2s,background .2s}
+    .nav-link-item:hover,.nav-item.open>.nav-link-item,.nav-link-item.active-tab{color:var(--orange);background:rgba(255,255,255,.08)}
+    .nav-chevron{width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-top:-2px;transition:transform .2s}
+    .nav-item.open .nav-chevron{transform:rotate(-135deg);margin-top:2px}
+    .nav-submenu{list-style:none;margin:0;position:absolute;top:calc(100% + 10px);left:0;min-width:230px;padding:.5rem;border-radius:12px;background:var(--navy);border:1px solid rgba(255,255,255,.14);border-top:3px solid var(--blue);box-shadow:0 20px 40px rgba(0,0,0,.35);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .18s ease,transform .18s ease,visibility .18s;z-index:1100}
+    .nav-item.open>.nav-submenu,.nav-item:hover>.nav-submenu{opacity:1;visibility:visible;transform:translateY(0)}
+    .nav-submenu li a{display:block;padding:.6rem .75rem;border-radius:8px;color:#cbd5e1;text-decoration:none;font-size:.85rem;font-weight:500;transition:background .15s,color .15s}
+    .nav-submenu li a:hover{background:rgba(var(--blue-rgb),.28);color:#fff}
+    .nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:8px}
+    .nav-toggle span{display:block;width:22px;height:2px;background:#fff;margin:4px 0;transition:.25s}
+    .nav-toggle.active span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+    .nav-toggle.active span:nth-child(2){opacity:0}
+    .nav-toggle.active span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+    @media(max-width:767px){
+      .nav-toggle{display:block}
+      .nav-menu{display:none;position:fixed;top:68px;left:0;right:0;flex-direction:column;align-items:stretch;gap:2px;background:var(--navy);padding:.9rem 1.25rem 1.4rem;border-bottom:1px solid rgba(255,255,255,.14);max-height:calc(100vh - 68px);overflow-y:auto;z-index:999}
+      .nav-menu.mobile-open{display:flex}
+      .nav-link-item{width:100%;justify-content:space-between}
+      .nav-submenu{position:static;opacity:1;visibility:visible;transform:none;display:none;box-shadow:none;background:rgba(255,255,255,.05);margin:.25rem 0 .5rem}
+      .nav-item.open>.nav-submenu{display:block}
+    }
+    .breadcrumb{background:#eef2f7;border-bottom:1px solid var(--border);padding:.55rem 5%}
+    .breadcrumb-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:.4rem;font-size:.82rem;color:var(--muted);flex-wrap:wrap}
+    .breadcrumb-inner a{color:var(--blue);text-decoration:none;font-weight:600}
+    .breadcrumb-inner a:hover{color:var(--orange)}
+    .breadcrumb-inner .bc-sep{color:#94a3b8}
+    .breadcrumb-inner .bc-current{color:var(--navy);font-weight:700}
+    .cta-btn{background:var(--orange);color:#fff;padding:.55rem 1.2rem;border-radius:5px;font-weight:700;border:none;cursor:pointer;transition:background .2s,transform .1s;text-decoration:none;display:inline-block;font-size:.88rem;white-space:nowrap}
+    .cta-btn:hover{background:var(--orange-hover);transform:translateY(-1px)}
+    main{max-width:1200px;margin:0 auto;padding:0 5%}
+    section{padding:2.5rem 0;border-bottom:1px solid var(--border)}
+    .section-title{text-align:center;font-size:2rem;color:var(--navy);margin-bottom:.4rem;font-weight:800}
+    .section-subtitle{text-align:center;color:var(--muted);font-size:1rem;max-width:700px;margin:0 auto 2rem;line-height:1.5}
+    .hero-strip{background:linear-gradient(135deg,var(--navy) 0%,#1e3a5f 100%);color:#fff;padding:2.5rem 2rem;border-radius:12px;margin-top:1rem;display:flex;flex-direction:column;gap:1rem}
+    @media(min-width:768px){.hero-strip{flex-direction:row;align-items:center;justify-content:space-between}}
+    .hero-strip h1{font-size:2rem;font-weight:900;line-height:1.2}
+    .hero-strip h1 span{color:var(--orange)}
+    .hero-badges{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
+    .hero-badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:.3rem .75rem;border-radius:20px;font-size:.78rem;font-weight:600}
+    footer{background:#09111e;color:#94a3b8;padding:2rem 5%;text-align:center;font-size:.85rem;margin-top:3rem}
+    .hidden{display:none!important}
+
+    /* shell + section nav + sidebar (same pattern as academy.html) */
+    .pg-shell{display:grid;grid-template-columns:1fr 300px;gap:1.75rem;align-items:start;margin-top:1.5rem}
+    @media(max-width:900px){.pg-shell{grid-template-columns:1fr}}
+    .pg-content{min-width:0}
+    .section-nav{display:flex;gap:.35rem;flex-wrap:wrap;background:#fff;border:1px solid var(--border);border-radius:10px;padding:.5rem;margin-bottom:1.75rem;position:sticky;top:78px;z-index:80;box-shadow:0 4px 10px rgba(0,0,0,.03)}
+    @media(max-width:767px){.section-nav{position:static}}
+    .section-nav-btn{padding:.6rem .95rem;border-radius:7px;border:none;background:none;font-weight:700;font-size:.83rem;color:var(--muted);cursor:pointer;transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:.35rem;font-family:inherit}
+    .section-nav-btn:hover{background:var(--bg);color:var(--navy)}
+    .section-nav-btn.active{background:var(--navy);color:#fff}
+    .pg-view{display:none}
+    .pg-view.active-view{display:block}
+    .pg-sidebar{min-width:0}
+    .sidebar-sticky{position:sticky;top:135px;display:flex;flex-direction:column;gap:1.1rem}
+    @media(max-width:900px){.sidebar-sticky{position:static;margin-top:2rem}}
+    .sidebar-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1.2rem}
+    .sidebar-card h4{color:var(--navy);font-size:.95rem;margin-bottom:.5rem}
+    .header-points{display:flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:.35rem .8rem;border-radius:20px;font-size:.78rem;font-weight:700}
+
+    /* login widgets (mirrors academy.html) */
+    .google-btn{display:flex;align-items:center;justify-content:center;gap:.6rem;width:100%;padding:.7rem 1rem;border-radius:8px;border:2px solid var(--border);background:#fff;font-weight:700;font-size:.88rem;color:var(--navy);cursor:pointer;transition:all .2s}
+    .google-btn:hover{border-color:var(--blue);box-shadow:0 4px 12px rgba(0,0,0,.06)}
+    .profile-card{display:flex;align-items:center;gap:.8rem;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:.9rem 1rem;margin-bottom:.9rem}
+    .profile-avatar{width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.05rem;flex-shrink:0;object-fit:cover}
+    .org-input-row{display:flex;flex-direction:column;gap:.5rem;margin-bottom:.9rem}
+    .org-input-row input,.org-input-row textarea,.pg-field input,.pg-field textarea,.pg-field select{width:100%;padding:.6rem .8rem;border:2px solid var(--border);border-radius:8px;font-size:.85rem;outline:none;font-family:inherit}
+    .org-input-row input:focus,.pg-field input:focus,.pg-field textarea:focus,.pg-field select:focus{border-color:var(--blue)}
+
+    /* category + status tags */
+    .tag{display:inline-block;padding:.25rem .65rem;border-radius:20px;font-size:.72rem;font-weight:700;color:#fff}
+    .tag-agentic{background:var(--agentic)}
+    .tag-ambient{background:var(--ambient)}
+    .tag-clinical{background:var(--clinical-tag)}
+    .tag-robotic{background:var(--robotic)}
+    .status-proven{background:var(--status-proven)}
+    .status-provisional{background:var(--status-provisional)}
+    .status-under_review{background:var(--status-review)}
+    .status-needs_update{background:var(--status-needs)}
+
+    /* filter bar (reused pattern) */
+    .filter-bar{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem;align-items:center}
+    .filter-pill{padding:.35rem .9rem;border-radius:20px;font-size:.8rem;font-weight:700;cursor:pointer;border:2px solid var(--border);background:#fff;color:var(--muted);transition:all .2s}
+    .filter-pill.active{color:#fff;border-color:transparent}
+    .filter-pill[data-cat="all"].active{background:var(--navy)}
+    .filter-pill[data-cat="agentic"].active{background:var(--agentic)}
+    .filter-pill[data-cat="ambient"].active{background:var(--ambient)}
+    .filter-pill[data-cat="clinical"].active{background:var(--clinical-tag)}
+    .filter-pill[data-cat="robotic"].active{background:var(--robotic)}
+    .filter-pill[data-status="proven"].active{background:var(--status-proven)}
+    .filter-pill[data-status="provisional"].active{background:var(--status-provisional)}
+    .filter-pill[data-status="under_review"].active{background:var(--status-review)}
+    .search-wrap{flex:1;min-width:220px;max-width:380px;position:relative}
+    .search-wrap input{width:100%;padding:.55rem 1rem .55rem 2.4rem;border:2px solid var(--border);border-radius:8px;font-size:.9rem;outline:none}
+    .search-wrap input:focus{border-color:var(--blue)}
+    .search-icon{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.9rem}
+
+    /* solution cards */
+    .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem}
+    .sol-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:1.3rem;display:flex;flex-direction:column;gap:.6rem;cursor:pointer;transition:transform .2s,box-shadow .2s}
+    .sol-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.08)}
+    .sol-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem}
+    .sol-vendor{font-size:.72rem;color:var(--muted);font-weight:700;text-transform:uppercase}
+    .sol-title{font-size:1.02rem;font-weight:800;color:var(--navy);line-height:1.3}
+    .sol-desc{font-size:.85rem;color:var(--muted);line-height:1.5}
+    .sol-footer{display:flex;justify-content:space-between;align-items:center;margin-top:auto;font-size:.8rem;color:var(--muted)}
+    .stars{color:#f59e0b;font-size:.9rem;letter-spacing:1px}
+    .empty-note{text-align:center;color:var(--muted);padding:2rem;font-size:.9rem}
+
+    /* solution detail modal */
+    .sol-modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,25,47,.72);z-index:2000;align-items:flex-start;justify-content:center;padding:4vh 1rem;overflow-y:auto}
+    .sol-modal-overlay.open{display:flex}
+    .sol-modal{background:#fff;border-radius:14px;max-width:760px;width:100%;box-shadow:0 30px 60px rgba(0,0,0,.4);margin-bottom:4vh}
+    .sol-modal-header{background:var(--navy);color:#fff;padding:1.5rem 1.75rem;border-radius:14px 14px 0 0;position:sticky;top:0;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+    .sol-modal-header h2{font-size:1.4rem;font-weight:800;margin:0;color:#fff}
+    .sol-modal-close{background:rgba(255,255,255,.12);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:1.1rem;cursor:pointer;flex-shrink:0;line-height:1;display:flex;align-items:center;justify-content:center}
+    .sol-modal-close:hover{background:rgba(255,255,255,.25)}
+    .sol-modal-body{padding:1.75rem}
+    .sol-modal-body h3{font-size:.82rem;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.05em;margin:1.3rem 0 .6rem}
+    .sol-modal-body h3:first-child{margin-top:0}
+    .sol-modal-body p{font-size:.92rem;line-height:1.6;color:var(--navy)}
+    .compliance-row{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--border);font-size:.88rem}
+    .compliance-row:last-child{border-bottom:none}
+    .status-pill{padding:.25rem .7rem;border-radius:20px;font-size:.72rem;font-weight:700;color:#fff}
+    .sp-not_reviewed{background:#94a3b8}
+    .sp-in_progress{background:#d97706}
+    .sp-verified{background:#16a34a}
+    .sp-needs_update{background:#dc2626}
+    .review-item{padding:.9rem 0;border-bottom:1px solid var(--border)}
+    .review-item:last-child{border-bottom:none}
+    .review-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem}
+    .review-name{font-weight:700;color:var(--navy);font-size:.88rem}
+    .review-date{font-size:.72rem;color:var(--muted)}
+    .review-text{font-size:.85rem;color:var(--navy);line-height:1.5}
+    .flag-link{font-size:.72rem;color:var(--muted);text-decoration:underline;cursor:pointer;background:none;border:none;padding:0;margin-top:.3rem}
+    .star-picker{display:flex;gap:.3rem;font-size:1.4rem;cursor:pointer;margin-bottom:.6rem}
+    .star-picker span{color:#cbd5e1}
+    .star-picker span.on{color:#f59e0b}
+
+    /* admin table */
+    .admin-sol-row{background:#fff;border:1px solid var(--border);border-radius:10px;padding:1.2rem;margin-bottom:1rem}
+    .admin-sol-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:.9rem;flex-wrap:wrap}
+    .compliance-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.7rem;margin-bottom:.9rem}
+    .compliance-field label{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:.25rem}
+
+    /* how it works */
+    .info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+    @media(max-width:850px){.info-grid{grid-template-columns:1fr}}
+    .info-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:1.4rem}
+    .info-card .info-num{display:inline-block;background:var(--navy);color:#fff;font-size:.72rem;font-weight:800;padding:.2rem .55rem;border-radius:20px;margin-bottom:.6rem}
+    .info-card h3{color:var(--navy);font-size:1rem;margin-bottom:.4rem}
+    .info-card p{color:var(--muted);font-size:.85rem;line-height:1.55}
+    .points-toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;padding:.85rem 1.2rem;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.3);font-size:.85rem;font-weight:700;z-index:3000;opacity:0;transform:translateY(12px);transition:all .25s;pointer-events:none}
+    .points-toast.show{opacity:1;transform:translateY(0)}
+    .pg-field{margin-bottom:1rem}
+    .pg-field label{font-size:.8rem;font-weight:700;color:var(--navy);display:block;margin-bottom:.3rem}
+    .my-sub-row{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.8rem 1rem;margin-bottom:.6rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
+  </style>
+  <script type="module">
+    // Shared Firebase project with academy.html and community.html — one
+    // profile, one auth session, across all three pages.
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+    import {
+      getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, increment, arrayUnion,
+      collection, query, where, orderBy, limit, onSnapshot, serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+    import {
+      getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged,
+      sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink
+    } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB_JuhH9_uWC0N_DhvE91mzu_J-SNdpn5w",
+      authDomain: "upull-ai.firebaseapp.com",
+      projectId: "upull-ai",
+      storageBucket: "upull-ai.firebasestorage.app",
+      messagingSenderId: "990867041040",
+      appId: "1:990867041040:web:7cf2cb3e810228d2fc5395",
+      measurementId: "G-KBVSDPY9NL"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
+
+    window.__ALLOWED_EMAIL_DOMAINS = ['nhs.net', 'nhs.uk'];
+
+    window.__firebase = {
+      db, auth, googleProvider,
+      doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, increment, arrayUnion,
+      collection, query, where, orderBy, limit, onSnapshot, serverTimestamp,
+      signInWithPopup, signOut, onAuthStateChanged,
+      sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink
+    };
+    window.__firebaseReady = true;
+    window.dispatchEvent(new Event('firebaseReady'));
+  </script>
+</head>
+<body>
+
+<header>
+  <div class="nav-container">
+    <a href="index.html" class="logo">uPull<span>.ai</span><span class="logo-tag">uCollabX</span></a>
+    <div class="nav-right">
+      <nav aria-label="Primary">
+      <ul class="nav-menu" id="navMenu">
+        <li class="nav-item">
+          <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+            Strategic Core <span class="nav-chevron" aria-hidden="true"></span>
+          </button>
+          <ul class="nav-submenu">
+            <li><a href="index.html#problem">Challenge</a></li>
+            <li><a href="index.html#approach">Model</a></li>
+            <li><a href="index.html#results">Results</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+            Community <span class="nav-chevron" aria-hidden="true"></span>
+          </button>
+          <ul class="nav-submenu">
+            <li><a href="community.html">Community Forum</a></li>
+            <li><a href="academy.html#tab-learning">AI Learning</a></li>
+            <li><a href="academy.html#tab-casestudies">Case Studies</a></li>
+            <li><a href="community.html#vendors">Suppliers &amp; Vendors</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link-item active-tab" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+            uCollabX <span class="nav-chevron" aria-hidden="true"></span>
+          </button>
+          <ul class="nav-submenu">
+            <li><a href="#" onclick="showSection('browse'); closeAllSubmenus(); closeMobileNav(); return false;">Browse Solutions</a></li>
+            <li><a href="#" onclick="showSection('submit'); closeAllSubmenus(); closeMobileNav(); return false;">Submit a Solution</a></li>
+            <li><a href="#" onclick="showSection('howitworks'); closeAllSubmenus(); closeMobileNav(); return false;">How It Works</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+            FAQs <span class="nav-chevron" aria-hidden="true"></span>
+          </button>
+          <ul class="nav-submenu">
+            <li><a href="faqs.html#about">About uPull.ai</a></li>
+            <li><a href="faqs.html#pilot">Pilot &amp; ROI</a></li>
+            <li><a href="faqs.html#governance">Safety &amp; Governance</a></li>
+          </ul>
+        </li>
+      </ul>
+      </nav>
+      <span class="header-points hidden" id="headerPoints">⭐ 0 pts</span>
+      <button class="cta-btn" id="headerLoginBtn" style="background:transparent;border:1.5px solid rgba(255,255,255,.4);color:#fff" onclick="scrollToSidebar()">Log in</button>
+      <a href="mailto:info@upull.ai" class="cta-btn">Proof of Value</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMobileNav()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="breadcrumb">
+  <div class="breadcrumb-inner">
+    <a href="index.html">Home</a>
+    <span class="bc-sep">›</span>
+    <a href="community.html">Community</a>
+    <span class="bc-sep">›</span>
+    <span class="bc-current">uCollabX</span>
+  </div>
+</div>
+
+<main>
+  <div class="hero-strip">
+    <div>
+      <h1>Welcome to <span>uCollabX</span></h1>
+      <p style="opacity:.9;margin-top:.4rem;max-width:600px">Not a marketplace — a compliance-checked, evidence-linked registry. Vendors submit solutions, uPull.ai verifies them against NHS-style compliance standards, and NHS-verified professionals rate and comment. Every entry links back to live Community updates and the Academy course that teaches you how to use it.</p>
+      <div class="hero-badges">
+        <span class="hero-badge">🛡️ Compliance verified</span>
+        <span class="hero-badge">🔁 Re-proven, not one-off</span>
+        <span class="hero-badge">✅ NHS-verified reviews</span>
+        <span class="hero-badge">🔗 Linked to Learning &amp; Community</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pg-shell">
+    <div class="pg-content">
+
+      <nav class="section-nav" aria-label="uCollabX sections">
+        <button class="section-nav-btn active" data-section="browse" onclick="showSection('browse')">🔍 Browse Solutions</button>
+        <button class="section-nav-btn" data-section="submit" onclick="showSection('submit')">🚀 Submit a Solution</button>
+        <button class="section-nav-btn" data-section="admin" onclick="showSection('admin')">🛡️ Admin Review</button>
+        <button class="section-nav-btn" data-section="howitworks" onclick="showSection('howitworks')">ℹ️ How It Works</button>
+      </nav>
+
+      <!-- ══════════════ BROWSE SOLUTIONS ══════════════ -->
+      <div id="section-browse" class="pg-view active-view">
+        <section style="padding-top:.5rem">
+          <h2 class="section-title">Browse solutions</h2>
+          <p class="section-subtitle">Filter by pathway and compliance status. Click any card for the full compliance breakdown, evidence, and NHS-verified reviews.</p>
+
+          <div class="filter-bar">
+            <div class="search-wrap">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="sol-search" placeholder="Search solutions, vendors..." oninput="renderSolutions()">
+            </div>
+            <button class="filter-pill" data-cat="all" onclick="setSolFilter('cat','all',this)">All categories</button>
+            <button class="filter-pill" data-cat="agentic" onclick="setSolFilter('cat','agentic',this)">🤖 Agentic</button>
+            <button class="filter-pill" data-cat="clinical" onclick="setSolFilter('cat','clinical',this)">🩺 Clinical</button>
+            <button class="filter-pill" data-cat="robotic" onclick="setSolFilter('cat','robotic',this)">🦾 Robotic</button>
+            <button class="filter-pill" data-cat="ambient" onclick="setSolFilter('cat','ambient',this)">🎙️ Ambience</button>
+          </div>
+          <div class="filter-bar">
+            <button class="filter-pill" data-status="all" onclick="setSolFilter('status','all',this)">All statuses</button>
+            <button class="filter-pill" data-status="proven" onclick="setSolFilter('status','proven',this)">✅ Proven</button>
+            <button class="filter-pill" data-status="provisional" onclick="setSolFilter('status','provisional',this)">🟠 Provisionally listed</button>
+            <button class="filter-pill" data-status="under_review" onclick="setSolFilter('status','under_review',this)">⚪ Under review</button>
+          </div>
+
+          <div class="cards-grid" id="solutionsGrid"></div>
+        </section>
+      </div>
+
+      <!-- ══════════════ SUBMIT A SOLUTION ══════════════ -->
+      <div id="section-submit" class="pg-view">
+        <section style="padding-top:.5rem">
+          <h2 class="section-title">Submit a solution</h2>
+          <p class="section-subtitle">Open to any signed-in vendor. Submissions start as "Under review" — uPull.ai checks each compliance area before a solution can show as Provisionally listed or Proven.</p>
+
+          <div id="vendorSignedOut" class="sidebar-card" style="max-width:480px;margin:0 auto;text-align:center">
+            <h4>Sign in as a vendor to submit</h4>
+            <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">Uses your company Google account — no @nhs.net/@nhs.uk requirement, since vendors aren't NHS staff.</p>
+            <button class="google-btn" onclick="signInAsVendorPG()">
+              <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l6-6C34 5.1 29.3 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21c0-1.4-.1-2.7-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.9 18.9 13 24 13c3.1 0 5.8 1.1 8 3l6-6C34 5.1 29.3 3 24 3 16.3 3 9.6 7.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 45c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 36.5 26.7 37 24 37c-5.2 0-9.6-3.3-11.2-7.9l-6.5 5C9.5 40.6 16.2 45 24 45z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.2-4.1 5.6l6.2 5.2C40.9 36 44 30.6 44 24c0-1.4-.1-2.7-.4-3.5z"/></svg>
+              Sign in with Google
+            </button>
+          </div>
+
+          <div id="vendorSignedIn" class="hidden" style="max-width:640px;margin:0 auto">
+            <div class="sidebar-card" style="margin-bottom:1.5rem">
+              <div class="pg-field">
+                <label for="submitVendorName">Company / vendor name</label>
+                <input type="text" id="submitVendorName" placeholder="e.g. Acme Health AI Ltd">
+              </div>
+              <div class="pg-field">
+                <label for="submitSolName">Solution name</label>
+                <input type="text" id="submitSolName" placeholder="e.g. Acme Ambient Scribe">
+              </div>
+              <div class="pg-field">
+                <label for="submitCategory">Pathway category</label>
+                <select id="submitCategory">
+                  <option value="agentic">🤖 Agentic AI</option>
+                  <option value="clinical">🩺 Clinical AI</option>
+                  <option value="robotic">🦾 Robotic AI</option>
+                  <option value="ambient">🎙️ Ambience AI</option>
+                </select>
+              </div>
+              <div class="pg-field">
+                <label for="submitDesc">Description</label>
+                <textarea id="submitDesc" rows="3" placeholder="What does this solution do, and what problem does it solve?"></textarea>
+              </div>
+              <div class="pg-field">
+                <label for="submitAudience">Target audience</label>
+                <input type="text" id="submitAudience" placeholder="e.g. Clinical leads, ward administrators">
+              </div>
+              <div class="pg-field">
+                <label for="submitEvidence">Evidence &amp; outcomes summary</label>
+                <textarea id="submitEvidence" rows="3" placeholder="Any outcome data, pilots, or published evidence so far"></textarea>
+              </div>
+              <p style="font-size:.75rem;color:var(--muted);margin:1rem 0 .5rem;font-weight:700;text-transform:uppercase">Supporting notes for compliance review (optional but speeds up verification)</p>
+              <div class="pg-field"><label>Clinical safety</label><textarea id="cn-clinicalSafety" rows="2"></textarea></div>
+              <div class="pg-field"><label>Data protection &amp; cyber security</label><textarea id="cn-dataProtection" rows="2"></textarea></div>
+              <div class="pg-field"><label>Interoperability</label><textarea id="cn-interoperability" rows="2"></textarea></div>
+              <div class="pg-field"><label>Usability &amp; accessibility</label><textarea id="cn-usability" rows="2"></textarea></div>
+              <div class="pg-field"><label>Evidence &amp; outcomes documentation</label><textarea id="cn-evidence" rows="2"></textarea></div>
+              <button class="cta-btn" style="width:100%;text-align:center" onclick="submitSolution()">Submit for review</button>
+              <p id="submitStatus" style="font-size:.8rem;font-weight:700;margin-top:.6rem"></p>
+            </div>
+
+            <h3 style="color:var(--navy);font-size:1.1rem;margin-bottom:.8rem">My submitted solutions</h3>
+            <div id="mySubmissions"></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ══════════════ ADMIN REVIEW ══════════════ -->
+      <div id="section-admin" class="pg-view">
+        <section style="padding-top:.5rem">
+          <h2 class="section-title">Admin review</h2>
+          <p class="section-subtitle">Verify each compliance area per solution. Overall status is calculated automatically from these five fields.</p>
+          <div id="adminNotAllowed" class="sidebar-card" style="max-width:480px;margin:0 auto;text-align:center">
+            <h4>Administrators only</h4>
+            <p style="font-size:.85rem;color:var(--muted)">Sign in with an account listed in the <code>admins</code> collection to review submissions and flagged reviews.</p>
+          </div>
+          <div id="adminPanel" class="hidden">
+            <h3 style="color:var(--navy);margin-bottom:1rem">All submissions</h3>
+            <div id="adminSolutionsList"></div>
+            <h3 style="color:var(--navy);margin:2rem 0 1rem">Flagged reviews</h3>
+            <div id="adminFlaggedReviews"></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ══════════════ HOW IT WORKS ══════════════ -->
+      <div id="section-howitworks" class="pg-view">
+        <section style="padding-top:.5rem">
+          <h2 class="section-title">How uCollabX works</h2>
+          <p class="section-subtitle">Four stages — and unlike a marketplace listing, none of them are a one-off.</p>
+          <div class="info-grid">
+            <div class="info-card">
+              <span class="info-num">01</span>
+              <h3>🚀 Submit</h3>
+              <p>Any signed-in vendor submits a solution: what it does, who it's for, and supporting evidence for each compliance area.</p>
+            </div>
+            <div class="info-card">
+              <span class="info-num">02</span>
+              <h3>🛡️ Verify</h3>
+              <p>uPull.ai checks five areas — clinical safety, data protection, interoperability, usability &amp; accessibility, and evidence &amp; outcomes.</p>
+            </div>
+            <div class="info-card">
+              <span class="info-num">03</span>
+              <h3>✅ Prove</h3>
+              <p>Status is shown transparently as it's verified — Under review, Provisionally listed, or fully Proven — and re-checked over time, not stamped once and forgotten.</p>
+            </div>
+            <div class="info-card">
+              <span class="info-num">04</span>
+              <h3>🔗 Connect</h3>
+              <p>Every profile links to the vendor's live Community updates and the Academy courses that teach people how to evaluate or deploy that category of solution.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+    </div><!-- /.pg-content -->
+
+    <!-- ══════════════ SIDEBAR: RATE & REVIEW LOGIN ══════════════ -->
+    <aside class="pg-sidebar" id="sidebarAnchor">
+      <div class="sidebar-sticky">
+        <div class="sidebar-card" id="loginSignedOut">
+          <h4>🔐 Rate &amp; review solutions</h4>
+          <p style="font-size:.8rem;color:var(--muted);margin-bottom:.9rem">Same profile as the Academy and Community Hub. Only NHS/public sector logins can post a rating, to keep reviews credible.</p>
+          <label for="nhsEmailInput" style="font-size:.72rem;font-weight:800;color:var(--navy);text-transform:uppercase">Sign in with NHS email</label>
+          <div style="display:flex;gap:.4rem;margin-top:.4rem">
+            <input type="email" id="nhsEmailInput" placeholder="you@nhs.net" style="flex:1;min-width:0;padding:.5rem .6rem;border:2px solid var(--border);border-radius:8px;font-size:.82rem">
+            <button class="cta-btn" style="flex-shrink:0;padding:.5rem .8rem;font-size:.78rem" onclick="sendNhsSignInLink()">Send link</button>
+          </div>
+          <p id="nhsEmailStatus" style="font-size:.72rem;font-weight:700;margin-top:.4rem"></p>
+          <div style="display:flex;align-items:center;gap:.5rem;margin:.9rem 0;color:var(--muted);font-size:.7rem;font-weight:700;text-transform:uppercase">
+            <span style="flex:1;height:1px;background:var(--border)"></span>or<span style="flex:1;height:1px;background:var(--border)"></span>
+          </div>
+          <button class="google-btn" onclick="signInAcademy()">Sign in with Google (@nhs.net/@nhs.uk)</button>
+        </div>
+        <div class="sidebar-card hidden" id="loginSignedIn">
+          <div class="profile-card">
+            <div class="profile-avatar" id="profileAvatar">A</div>
+            <div>
+              <div style="font-weight:800;color:var(--navy);font-size:.88rem" id="profileName">Learner</div>
+              <div style="font-size:.7rem;color:var(--muted)">Shared with Academy &amp; Community</div>
+            </div>
+          </div>
+          <button class="cta-btn" style="width:100%;text-align:center;background:transparent;border:2px solid var(--border);color:var(--muted)" onclick="signOutAcademy()">Sign out</button>
+        </div>
+        <div class="sidebar-card">
+          <h4>Quick links</h4>
+          <div style="display:flex;flex-direction:column;gap:.55rem;font-size:.85rem">
+            <a href="academy.html" style="color:var(--blue);font-weight:600">🎓 Academy &amp; learning pathways</a>
+            <a href="community.html#vendors" style="color:var(--blue);font-weight:600">🔌 Community vendor feed</a>
+            <a href="community.html" style="color:var(--blue);font-weight:600">💬 Community forum</a>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<!-- SOLUTION DETAIL MODAL -->
+<div class="sol-modal-overlay" id="solModalOverlay" onclick="if(event.target===this) closeSolutionModal();">
+  <div class="sol-modal" role="dialog" aria-modal="true">
+    <div class="sol-modal-header">
+      <div>
+        <h2 id="solModalTitle">Solution name</h2>
+        <p style="font-size:.8rem;color:#cbd5e1;margin-top:.3rem" id="solModalVendor">Vendor</p>
+      </div>
+      <button class="sol-modal-close" onclick="closeSolutionModal()" aria-label="Close">✕</button>
+    </div>
+    <div class="sol-modal-body" id="solModalBody"></div>
+  </div>
+</div>
+
+<footer>
+  <p><strong>uPull<span style="color:var(--orange)">.</span>ai</strong> uCollabX · Compliance-checked, evidence-linked, not a marketplace</p>
+  <p style="margin-top:.5rem;font-size:.75rem;opacity:.6">© 2026 uPull.ai Ltd. Solutions are listed by vendors and reviewed by uPull.ai; listing does not constitute procurement advice. Ratings reflect individual reviewer views.</p>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════
+   NAV (shared pattern with academy.html / community.html)
+   ══════════════════════════════════════════════════════════════════ */
+function toggleSubmenu(btn) {
+  const item = btn.closest('.nav-item');
+  const wasOpen = item.classList.contains('open');
+  closeAllSubmenus();
+  if (!wasOpen) { item.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+}
+function closeAllSubmenus() {
+  document.querySelectorAll('.nav-item.open').forEach(item => {
+    item.classList.remove('open');
+    item.querySelector('.nav-link-item')?.setAttribute('aria-expanded','false');
+  });
+}
+document.addEventListener('click', e => { if (!e.target.closest('.nav-item')) closeAllSubmenus(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAllSubmenus(); closeMobileNav(); closeSolutionModal(); } });
+function toggleMobileNav() {
+  const menu = document.getElementById('navMenu');
+  const toggle = document.getElementById('navToggle');
+  const isOpen = menu.classList.toggle('mobile-open');
+  toggle.classList.toggle('active', isOpen);
+  toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  if (!isOpen) closeAllSubmenus();
+}
+function closeMobileNav() {
+  document.getElementById('navMenu')?.classList.remove('mobile-open');
+  document.getElementById('navToggle')?.classList.remove('active');
+}
+function showSection(name) {
+  document.querySelectorAll('.pg-view').forEach(v => v.classList.remove('active-view'));
+  document.querySelectorAll('.section-nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('section-' + name)?.classList.add('active-view');
+  document.querySelector(`.section-nav-btn[data-section="${name}"]`)?.classList.add('active');
+  document.querySelector('.pg-shell')?.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function scrollToSidebar() {
+  document.getElementById('sidebarAnchor')?.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   DATA MODEL
+   ══════════════════════════════════════════════════════════════════ */
+const COMPLIANCE_CATEGORIES = [
+  {key:'clinicalSafety', label:'Clinical safety'},
+  {key:'dataProtection', label:'Data protection & cyber security'},
+  {key:'interoperability', label:'Interoperability'},
+  {key:'usability', label:'Usability & accessibility'},
+  {key:'evidence', label:'Evidence & outcomes'}
+];
+const STATUS_LABELS = {not_reviewed:'Not yet reviewed', in_progress:'In progress', verified:'Verified', needs_update:'Needs update'};
+const CAT_LABELS = {agentic:'🤖 Agentic AI', clinical:'🩺 Clinical AI', robotic:'🦾 Robotic AI', ambient:'🎙️ Ambience AI'};
+
+function computeOverallStatus(complianceStatus) {
+  const vals = COMPLIANCE_CATEGORIES.map(c => (complianceStatus && complianceStatus[c.key]) || 'not_reviewed');
+  if (vals.includes('needs_update')) return {key:'needs_update', label:'Needs update'};
+  const verifiedCount = vals.filter(v => v === 'verified').length;
+  if (verifiedCount === vals.length) return {key:'proven', label:'✅ Proven'};
+  if (verifiedCount > 0) return {key:'provisional', label:`🟠 Provisionally listed (${verifiedCount}/5)`};
+  return {key:'under_review', label:'⚪ Under review'};
+}
+
+let allSolutions = [];
+let allReviews = [];
+let solFilters = {cat:'all', status:'all'};
+
+function fbPG() {
+  if (!window.__firebase) return null;
+  return window.__firebase;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   LOAD SOLUTIONS + REVIEWS (live)
+   ══════════════════════════════════════════════════════════════════ */
+function initSolutionsFeed() {
+  const f = fbPG();
+  if (!f) return;
+  f.onSnapshot(f.query(f.collection(f.db, 'solutions'), f.orderBy('createdAt', 'desc')), snap => {
+    allSolutions = snap.docs.map(d => ({id: d.id, ...d.data()}));
+    renderSolutions();
+    renderMySubmissions();
+    renderAdminSolutions();
+  }, err => console.error('Solutions feed error:', err));
+
+  f.onSnapshot(f.query(f.collection(f.db, 'solutionReviews'), f.orderBy('createdAt', 'desc')), snap => {
+    allReviews = snap.docs.map(d => ({id: d.id, ...d.data()}));
+    renderAdminFlaggedReviews();
+    if (window.__openSolutionId) renderSolutionModalReviews(window.__openSolutionId);
+  }, err => console.error('Reviews feed error:', err));
+}
+
+function reviewsFor(solutionId) {
+  return allReviews.filter(r => r.solutionId === solutionId);
+}
+function avgRating(solutionId) {
+  const rs = reviewsFor(solutionId);
+  if (!rs.length) return null;
+  return rs.reduce((sum, r) => sum + (r.rating || 0), 0) / rs.length;
+}
+function starString(avg) {
+  if (avg === null) return 'No reviews yet';
+  const rounded = Math.round(avg);
+  return '★'.repeat(rounded) + '☆'.repeat(5 - rounded) + ` (${avg.toFixed(1)})`;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   BROWSE SOLUTIONS
+   ══════════════════════════════════════════════════════════════════ */
+function setSolFilter(kind, value, btn) {
+  solFilters[kind] = value;
+  const group = kind === 'cat' ? '[data-cat]' : '[data-status]';
+  document.querySelectorAll(`#section-browse ${group}`).forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  renderSolutions();
+}
+
+function renderSolutions() {
+  const grid = document.getElementById('solutionsGrid');
+  if (!grid) return;
+  const search = (document.getElementById('sol-search')?.value || '').toLowerCase();
+
+  let list = allSolutions.filter(s => {
+    if (solFilters.cat !== 'all' && s.category !== solFilters.cat) return false;
+    const status = computeOverallStatus(s.complianceStatus).key;
+    if (solFilters.status !== 'all' && status !== solFilters.status) return false;
+    if (search && !((s.name||'').toLowerCase().includes(search) || (s.vendorName||'').toLowerCase().includes(search))) return false;
+    return true;
+  });
+
+  if (!list.length) {
+    grid.innerHTML = '<div class="empty-note">No solutions match yet. Be the first vendor to submit one, or try a different filter.</div>';
+    return;
+  }
+
+  grid.innerHTML = list.map(s => {
+    const status = computeOverallStatus(s.complianceStatus);
+    const avg = avgRating(s.id);
+    return `
+      <div class="sol-card" onclick="openSolutionModal('${s.id}')">
+        <div class="sol-card-top">
+          <span class="tag tag-${s.category}">${CAT_LABELS[s.category] || s.category}</span>
+          <span class="tag status-${status.key}">${status.label}</span>
+        </div>
+        <div class="sol-vendor">${s.vendorName || 'Unknown vendor'}</div>
+        <div class="sol-title">${s.name || 'Untitled solution'}</div>
+        <div class="sol-desc">${(s.description || '').slice(0,140)}${(s.description||'').length>140?'…':''}</div>
+        <div class="sol-footer">
+          <span class="stars">${starString(avg)}</span>
+          <span>${reviewsFor(s.id).length} review${reviewsFor(s.id).length===1?'':'s'}</span>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   SOLUTION DETAIL MODAL
+   ══════════════════════════════════════════════════════════════════ */
+function openSolutionModal(id) {
+  const s = allSolutions.find(x => x.id === id);
+  if (!s) return;
+  window.__openSolutionId = id;
+  const status = computeOverallStatus(s.complianceStatus);
+
+  document.getElementById('solModalTitle').textContent = s.name || 'Untitled solution';
+  document.getElementById('solModalVendor').textContent = (s.vendorName || 'Unknown vendor') + ' · ' + (CAT_LABELS[s.category] || s.category);
+
+  const complianceHTML = COMPLIANCE_CATEGORIES.map(c => {
+    const st = (s.complianceStatus && s.complianceStatus[c.key]) || 'not_reviewed';
+    return `<div class="compliance-row"><span>${c.label}</span><span class="status-pill sp-${st}">${STATUS_LABELS[st]}</span></div>`;
+  }).join('');
+
+  const body = document.getElementById('solModalBody');
+  body.innerHTML = `
+    <h3>Overall status</h3>
+    <p><span class="tag status-${status.key}">${status.label}</span></p>
+
+    <h3>Description</h3>
+    <p>${s.description || 'No description provided.'}</p>
+
+    <h3>Target audience</h3>
+    <p>${s.targetAudience || 'Not specified.'}</p>
+
+    <h3>Evidence &amp; outcomes</h3>
+    <p>${s.evidenceSummary || 'No evidence summary provided yet.'}</p>
+
+    <h3>Compliance status</h3>
+    ${complianceHTML}
+
+    <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.3rem">
+      <a href="academy.html#course-cat-${s.category}" class="btn-sm-link cta-btn" style="font-size:.8rem;padding:.5rem .9rem">🎓 Learn how to evaluate/deploy this category →</a>
+      <a href="community.html#vendors" target="_blank" rel="noopener" class="cta-btn" style="font-size:.8rem;padding:.5rem .9rem;background:transparent;border:2px solid var(--border);color:var(--navy)">🔌 See vendor updates in Community →</a>
+    </div>
+
+    <h3 style="margin-top:1.8rem">Ratings &amp; reviews</h3>
+    <div id="reviewAddForm"></div>
+    <div id="reviewsList"></div>
+  `;
+
+  renderSolutionModalReviews(id);
+  document.getElementById('solModalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSolutionModal() {
+  document.getElementById('solModalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  window.__openSolutionId = null;
+}
+
+let selectedStars = 0;
+
+function renderSolutionModalReviews(id) {
+  const addFormEl = document.getElementById('reviewAddForm');
+  const listEl = document.getElementById('reviewsList');
+  if (!addFormEl || !listEl) return;
+
+  if (window.__currentUid) {
+    addFormEl.innerHTML = `
+      <div class="sidebar-card" style="margin-bottom:1rem">
+        <div class="star-picker" id="starPicker">
+          ${[1,2,3,4,5].map(n => `<span data-n="${n}" onclick="setStars(${n})">★</span>`).join('')}
+        </div>
+        <textarea id="reviewComment" rows="2" placeholder="Share your experience with this solution" style="width:100%;padding:.6rem;border:2px solid var(--border);border-radius:8px;font-size:.85rem;font-family:inherit"></textarea>
+        <button class="cta-btn" style="margin-top:.6rem" onclick="submitReview('${id}')">Post review</button>
+      </div>`;
+    setStars(0);
+  } else {
+    addFormEl.innerHTML = `<p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">Sign in with your NHS email in the sidebar to add a rating or comment.</p>`;
+  }
+
+  const rs = reviewsFor(id);
+  listEl.innerHTML = rs.length ? rs.map(r => `
+    <div class="review-item">
+      <div class="review-head">
+        <span class="review-name">${r.name || 'NHS reviewer'} · ${'★'.repeat(r.rating||0)}${'☆'.repeat(5-(r.rating||0))}</span>
+        <span class="review-date">${r.createdAt && r.createdAt.toDate ? r.createdAt.toDate().toLocaleDateString('en-GB') : ''}</span>
+      </div>
+      <p class="review-text">${r.comment || ''}</p>
+      ${(r.reportCount||0) > 0 ? `<span style="font-size:.7rem;color:#dc2626;font-weight:700">🚩 Flagged (${r.reportCount})</span>` : ''}
+      <div><button class="flag-link" onclick="flagReview('${r.id}')">Report this review</button></div>
+    </div>`).join('') : '<p style="font-size:.85rem;color:var(--muted)">No reviews yet — be the first NHS-verified reviewer.</p>';
+}
+
+function setStars(n) {
+  selectedStars = n;
+  document.querySelectorAll('#starPicker span').forEach(el => {
+    el.classList.toggle('on', Number(el.dataset.n) <= n);
+  });
+}
+
+async function submitReview(solutionId) {
+  const f = fbPG();
+  if (!f || !window.__currentUid) { alert('Please sign in with your NHS email first.'); return; }
+  if (!selectedStars) { alert('Please select a star rating.'); return; }
+  const comment = (document.getElementById('reviewComment')?.value || '').trim();
+  await f.addDoc(f.collection(f.db, 'solutionReviews'), {
+    solutionId,
+    uid: window.__currentUid,
+    name: window.__currentUserName || 'NHS reviewer',
+    rating: selectedStars,
+    comment,
+    reportCount: 0,
+    createdAt: f.serverTimestamp()
+  });
+  selectedStars = 0;
+  showPGToast('Review posted — thank you.');
+}
+
+async function flagReview(reviewId) {
+  const f = fbPG();
+  if (!f) return;
+  if (!window.__currentUid) { alert('Please sign in first to report a review.'); return; }
+  const ref = f.doc(f.db, 'solutionReviews', reviewId);
+  await f.updateDoc(ref, { reportCount: f.increment(1) });
+  showPGToast('Thanks — this review has been flagged for admin attention.');
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   VENDOR SUBMISSION
+   ══════════════════════════════════════════════════════════════════ */
+function signInAsVendorPG() {
+  setSignInRole('vendor');
+  const f = fbPG();
+  if (!f) { alert('Still connecting — please wait a second and try again.'); return; }
+  f.signInWithPopup(f.auth, f.googleProvider).catch(err => {
+    console.error('Vendor sign-in failed:', err);
+    if (err.code !== 'auth/popup-closed-by-user') alert('Sign-in did not complete (' + err.code + '). Please try again.');
+  });
+}
+
+async function submitSolution() {
+  const f = fbPG();
+  if (!f || !window.__currentUid) { alert('Please sign in as a vendor first.'); return; }
+  const vendorName = (document.getElementById('submitVendorName').value || '').trim();
+  const name = (document.getElementById('submitSolName').value || '').trim();
+  const category = document.getElementById('submitCategory').value;
+  const description = (document.getElementById('submitDesc').value || '').trim();
+  const targetAudience = (document.getElementById('submitAudience').value || '').trim();
+  const evidenceSummary = (document.getElementById('submitEvidence').value || '').trim();
+
+  if (!vendorName || !name || !description) {
+    document.getElementById('submitStatus').textContent = 'Please fill in company name, solution name and description.';
+    document.getElementById('submitStatus').style.color = '#dc2626';
+    return;
+  }
+
+  const complianceNotes = {};
+  const complianceStatus = {};
+  COMPLIANCE_CATEGORIES.forEach(c => {
+    complianceNotes[c.key] = (document.getElementById('cn-' + c.key)?.value || '').trim();
+    complianceStatus[c.key] = 'not_reviewed';
+  });
+
+  await f.addDoc(f.collection(f.db, 'solutions'), {
+    vendorUid: window.__currentUid,
+    vendorName, name, category, description, targetAudience, evidenceSummary,
+    complianceNotes, complianceStatus,
+    createdAt: f.serverTimestamp(),
+    updatedAt: f.serverTimestamp()
+  });
+
+  document.getElementById('submitStatus').style.color = '#16a34a';
+  document.getElementById('submitStatus').textContent = 'Submitted — you can track its compliance status below.';
+  ['submitSolName','submitDesc','submitAudience','submitEvidence'].forEach(id => document.getElementById(id).value = '');
+  COMPLIANCE_CATEGORIES.forEach(c => { const el = document.getElementById('cn-' + c.key); if (el) el.value = ''; });
+}
+
+function renderMySubmissions() {
+  const wrap = document.getElementById('mySubmissions');
+  if (!wrap || !window.__currentUid) return;
+  const mine = allSolutions.filter(s => s.vendorUid === window.__currentUid);
+  wrap.innerHTML = mine.length ? mine.map(s => {
+    const status = computeOverallStatus(s.complianceStatus);
+    return `<div class="my-sub-row"><strong>${s.name}</strong><span class="tag status-${status.key}">${status.label}</span></div>`;
+  }).join('') : '<p style="font-size:.85rem;color:var(--muted)">Nothing submitted yet.</p>';
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   ADMIN REVIEW
+   ══════════════════════════════════════════════════════════════════ */
+let isAdminPG = false;
+
+function renderAdminSolutions() {
+  const wrap = document.getElementById('adminSolutionsList');
+  if (!wrap || !isAdminPG) return;
+  wrap.innerHTML = allSolutions.map(s => {
+    const fields = COMPLIANCE_CATEGORIES.map(c => {
+      const current = (s.complianceStatus && s.complianceStatus[c.key]) || 'not_reviewed';
+      const options = Object.keys(STATUS_LABELS).map(v => `<option value="${v}" ${v===current?'selected':''}>${STATUS_LABELS[v]}</option>`).join('');
+      return `<div class="compliance-field"><label>${c.label}</label><select id="admin-${s.id}-${c.key}">${options}</select></div>`;
+    }).join('');
+    const status = computeOverallStatus(s.complianceStatus);
+    return `
+      <div class="admin-sol-row">
+        <div class="admin-sol-head">
+          <div><strong style="color:var(--navy)">${s.name}</strong><div style="font-size:.78rem;color:var(--muted)">${s.vendorName} · ${CAT_LABELS[s.category]||s.category}</div></div>
+          <span class="tag status-${status.key}">${status.label}</span>
+        </div>
+        <div class="compliance-grid">${fields}</div>
+        <button class="cta-btn" onclick="saveComplianceStatus('${s.id}')">Save compliance status</button>
+      </div>`;
+  }).join('') || '<p style="font-size:.85rem;color:var(--muted)">No submissions yet.</p>';
+}
+
+async function saveComplianceStatus(solutionId) {
+  const f = fbPG();
+  if (!f) return;
+  const complianceStatus = {};
+  COMPLIANCE_CATEGORIES.forEach(c => {
+    const el = document.getElementById(`admin-${solutionId}-${c.key}`);
+    complianceStatus[c.key] = el ? el.value : 'not_reviewed';
+  });
+  await f.updateDoc(f.doc(f.db, 'solutions', solutionId), { complianceStatus, updatedAt: f.serverTimestamp() });
+  showPGToast('Compliance status saved.');
+}
+
+function renderAdminFlaggedReviews() {
+  const wrap = document.getElementById('adminFlaggedReviews');
+  if (!wrap || !isAdminPG) return;
+  const flagged = allReviews.filter(r => (r.reportCount||0) > 0);
+  wrap.innerHTML = flagged.length ? flagged.map(r => `
+    <div class="admin-sol-row">
+      <p style="font-size:.85rem;color:var(--navy)"><strong>${r.name}</strong> — ${'★'.repeat(r.rating||0)} — flagged ${r.reportCount} time(s)</p>
+      <p class="review-text" style="margin:.4rem 0">${r.comment}</p>
+      <button class="cta-btn" style="background:#dc2626" onclick="deleteFlaggedReview('${r.id}')">Delete review</button>
+    </div>`).join('') : '<p style="font-size:.85rem;color:var(--muted)">No flagged reviews.</p>';
+}
+
+async function deleteFlaggedReview(reviewId) {
+  const f = fbPG();
+  if (!f) return;
+  await f.deleteDoc(f.doc(f.db, 'solutionReviews', reviewId));
+  showPGToast('Review deleted.');
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   SIGN-IN ROLE (shared across academy.html / community.html / here)
+   ══════════════════════════════════════════════════════════════════ */
+function setSignInRole(role) { window.localStorage.setItem('upullUserRole', role); }
+function getSignInRole() { return window.localStorage.getItem('upullUserRole') || 'learner'; }
+
+function isAllowedEmail(email) {
+  if (!email) return false;
+  const domain = email.split('@')[1]?.toLowerCase().trim() || '';
+  const allowed = window.__ALLOWED_EMAIL_DOMAINS || ['nhs.net', 'nhs.uk'];
+  return allowed.some(d => domain === d || domain.endsWith('.' + d));
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   LEARNER/REVIEWER LOGIN (NHS-gated — mirrors academy.html)
+   ══════════════════════════════════════════════════════════════════ */
+function setNhsEmailStatus(msg, isError) {
+  const el = document.getElementById('nhsEmailStatus');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.color = isError ? '#dc2626' : '#16a34a';
+}
+
+function signInAcademy() {
+  const f = fbPG();
+  if (!f) { alert('Still connecting — please wait a second and try again.'); return; }
+  setSignInRole('learner');
+  f.signInWithPopup(f.auth, f.googleProvider).catch(err => {
+    console.error('Sign-in failed:', err);
+    if (err.code !== 'auth/popup-closed-by-user') alert('Sign-in did not complete (' + err.code + '). Please try again.');
+  });
+}
+
+function signOutAcademy() {
+  const f = fbPG();
+  if (!f) return;
+  f.signOut(f.auth).catch(err => console.error('Sign-out failed:', err));
+}
+
+function sendNhsSignInLink() {
+  const f = fbPG();
+  if (!f) { setNhsEmailStatus('Still connecting — please wait a second and try again.', true); return; }
+  const email = (document.getElementById('nhsEmailInput')?.value || '').trim();
+  if (!isAllowedEmail(email)) { setNhsEmailStatus('Please enter a valid @nhs.net or @nhs.uk address.', true); return; }
+  setSignInRole('learner');
+  const actionCodeSettings = { url: window.location.href.split('#')[0], handleCodeInApp: true };
+  setNhsEmailStatus('Sending link…', false);
+  f.sendSignInLinkToEmail(f.auth, email, actionCodeSettings).then(() => {
+    window.localStorage.setItem('upullEmailForSignIn', email);
+    setNhsEmailStatus('Check your NHS inbox and open the link on this device.', false);
+  }).catch(err => {
+    console.error('Email link send failed:', err);
+    setNhsEmailStatus('Could not send the link (' + err.code + ').', true);
+  });
+}
+
+function completeEmailLinkSignInIfNeeded() {
+  const f = fbPG();
+  if (!f) return;
+  if (!f.isSignInWithEmailLink(f.auth, window.location.href)) return;
+  setSignInRole('learner');
+  let email = window.localStorage.getItem('upullEmailForSignIn');
+  if (!email) email = window.prompt('Please confirm the NHS email address you used to request this link:');
+  if (!isAllowedEmail(email)) { alert('Sign-in blocked: only @nhs.net and @nhs.uk email addresses are accepted.'); return; }
+  f.signInWithEmailLink(f.auth, email, window.location.href).then(() => {
+    window.localStorage.removeItem('upullEmailForSignIn');
+    window.history.replaceState({}, document.title, window.location.origin + window.location.pathname);
+  }).catch(err => {
+    console.error('Email link sign-in failed:', err);
+    alert('That sign-in link is invalid or has expired (' + err.code + ').');
+  });
+}
+
+async function onAuthChangePG(user) {
+  const signedOut = document.getElementById('loginSignedOut');
+  const signedIn = document.getElementById('loginSignedIn');
+  const headerPoints = document.getElementById('headerPoints');
+  const vendorSignedOut = document.getElementById('vendorSignedOut');
+  const vendorSignedIn = document.getElementById('vendorSignedIn');
+  const adminNotAllowed = document.getElementById('adminNotAllowed');
+  const adminPanel = document.getElementById('adminPanel');
+
+  if (!user) {
+    window.__currentUid = null;
+    isAdminPG = false;
+    signedOut.style.display = 'block'; signedIn.classList.add('hidden');
+    vendorSignedOut.classList.remove('hidden'); vendorSignedIn.classList.add('hidden');
+    adminNotAllowed.style.display = 'block'; adminPanel.classList.add('hidden');
+    headerPoints.classList.add('hidden');
+    return;
+  }
+
+  const role = getSignInRole();
+
+  // Vendor role: skip the NHS gate entirely.
+  if (role === 'vendor') {
+    window.__currentUid = user.uid;
+    window.__currentUserName = user.displayName || user.email;
+    vendorSignedOut.classList.add('hidden');
+    vendorSignedIn.classList.remove('hidden');
+    document.getElementById('submitVendorName').value = document.getElementById('submitVendorName').value || (user.displayName || '');
+    renderMySubmissions();
+    checkAdmin(user.uid);
+    return;
+  }
+
+  // Learner/leader role: NHS domain gate applies.
+  if (!isAllowedEmail(user.email)) {
+    const f = fbPG();
+    if (f) f.signOut(f.auth);
+    setNhsEmailStatus('That account (' + (user.email || 'no email') + ') is not an @nhs.net or @nhs.uk address, so it has been signed out.', true);
+    return;
+  }
+
+  window.__currentUid = user.uid;
+  window.__currentUserName = user.displayName || user.email;
+  signedOut.style.display = 'none';
+  signedIn.classList.remove('hidden');
+  document.getElementById('profileName').textContent = user.displayName || user.email || 'Learner';
+  const avatarEl = document.getElementById('profileAvatar');
+  if (user.photoURL) avatarEl.innerHTML = `<img src="${user.photoURL}" style="width:100%;height:100%;border-radius:50%;object-fit:cover" alt="">`;
+  else avatarEl.textContent = (user.displayName || 'A').charAt(0).toUpperCase();
+  headerPoints.classList.remove('hidden');
+  headerPoints.textContent = '👤 Signed in';
+
+  if (window.__openSolutionId) renderSolutionModalReviews(window.__openSolutionId);
+  checkAdmin(user.uid);
+}
+
+function checkAdmin(uid) {
+  const f = fbPG();
+  if (!f) return;
+  f.getDoc(f.doc(f.db, 'admins', uid)).then(snap => {
+    isAdminPG = snap.exists();
+    document.getElementById('adminNotAllowed').style.display = isAdminPG ? 'none' : 'block';
+    document.getElementById('adminPanel').classList.toggle('hidden', !isAdminPG);
+    if (isAdminPG) { renderAdminSolutions(); renderAdminFlaggedReviews(); }
+  }).catch(() => { isAdminPG = false; });
+}
+
+function showPGToast(msg) {
+  let toast = document.getElementById('pgToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'pgToast';
+    toast.className = 'points-toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(window.__pgToastTimer);
+  window.__pgToastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   INIT
+   ══════════════════════════════════════════════════════════════════ */
+function initAuthPG() {
+  const tryInit = () => {
+    const f = fbPG();
+    if (!f) return;
+    completeEmailLinkSignInIfNeeded();
+    f.onAuthStateChanged(f.auth, user => onAuthChangePG(user));
+  };
+  if (window.__firebaseReady) tryInit(); else window.addEventListener('firebaseReady', tryInit);
+}
+
+window.onload = function() {
+  const tryInit = () => { initSolutionsFeed(); };
+  if (window.__firebaseReady) tryInit(); else window.addEventListener('firebaseReady', tryInit);
+  initAuthPG();
+};
+</script>
+</body>
+</html>
