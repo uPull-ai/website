@@ -76,6 +76,13 @@
     .nav-submenu li a:hover { background: rgba(var(--nhs-blue-rgb),0.28); color: #ffffff; }
     .cta-btn { background-color: var(--accent-orange); color: #ffffff; padding: 0.6rem 1.2rem; border-radius: 4px; font-weight: 600; border: none; cursor: pointer; transition: background 0.2s, transform 0.1s; text-decoration: none; display: inline-block; font-size: 0.9rem; white-space: nowrap; }
     .cta-btn:hover { background-color: var(--accent-orange-hover); transform: translateY(-1px); }
+    .nav-icon-btn{
+      display:flex;align-items:center;justify-content:center;
+      width:38px;height:38px;border-radius:50%;
+      background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
+      font-size:1.1rem;transition:.2s;flex-shrink:0;text-decoration:none;
+    }
+    .nav-icon-btn:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.32)}
 
     /* MOBILE TOGGLE */
     .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
@@ -144,6 +151,13 @@
     .ask-submit:hover { background: #c54f20; }
     .ask-note { font-size: 0.8rem; opacity: 0.85; }
 
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 1rem; }
+    #leadership { scroll-margin-top: 96px; }
+    .team-card { background: #fff; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.6rem 1.4rem; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03); }
+    .member-avatar { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; margin: 0 auto 1rem; display: block; border: 3px solid var(--bg-light); }
+    .team-card h3 { color: var(--primary-navy); font-size: 1.15rem; margin-bottom: 0.2rem; }
+    .member-role { color: var(--nhs-blue); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin: 0.3rem 0 0.7rem; }
+
     footer { background: #09111e; color: #94a3b8; padding: 2rem 5%; text-align: center; font-size: 0.85rem; margin-top: 3rem; }
 
     @media (max-width: 899px) {
@@ -205,7 +219,8 @@
           </button>
           <ul class="nav-submenu">
            <li><a href="community.html">Forum</a></li>
-            <li><a href="academy.html#tab-learning">AI Learning</a></li>
+            <li><a href="academy.html#tab-learning">uGrowX</a></li>
+            <li><a href="community.html#ucollabx">🧪 uCollabX</a></li>
             <li><a href="academy.html#tab-casestudies">Case Studies</a></li>
           </ul>
         </li>
@@ -227,7 +242,9 @@
 
       </ul>
       </nav>
-      <!-- 4. PROOF OF VALUE -->
+      <!-- 4. NEWSLETTER -->
+      <a href="news.html" class="nav-icon-btn" aria-label="uPull.ai Weekly — read and subscribe to the newsletter" title="uPull.ai Weekly newsletter">📰</a>
+      <!-- 5. PROOF OF VALUE -->
       <a href="mailto:info@upull.ai" class="cta-btn">Proof of Value</a>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMobileNav()">
         <span></span><span></span><span></span>
@@ -242,6 +259,7 @@
     <p>A clear support hub for NHS and health-and-care leaders evaluating workflow redesign, proof-of-value pilots, intrapreneur development, ROI, governance, and case-study submission through uPull.ai.</p>
     <div class="toc">
       <a href="#about">About uPull.ai</a>
+      <a href="#leadership">Our Leaders</a>
       <a href="#pilot">Pilot & ROI</a>
       <a href="#workflows">Workflow Delivery</a>
       <a href="#governance">Safety & Governance</a>
@@ -470,6 +488,25 @@
           </div>
         </form>
       </div>
+    </div>
+  </section>
+
+  <section id="leadership">
+    <h2 class="section-title">Our Visionaries &amp; Leaders</h2>
+    <p class="section-subtitle">Dedicated to frontline-led digital capability and safety.</p>
+    <div class="team-grid">
+      <article class="team-card">
+        <img src="https://github.com/a1exch3ung/uPull.ai/blob/main/1628754257220.jpeg?raw=true&auto=format&fit=crop&w=200&h=200&q=80" alt="Alex" class="member-avatar" loading="lazy">
+        <h3>Alex Cheung</h3><div class="member-role">Co-Founder &amp; CEO</div><p style="font-size:0.9rem; color:var(--text-muted);">Community builder with technology and program management experience, delivering large-scale programs and digital transformation.</p>
+      </article>
+      <article class="team-card">
+        <img src="https://www.digitalhealth.net/wp-content/uploads/2025/11/Hassan-Chaudhury-1-1.jpeg.webp?auto=format&fit=crop&w=200&h=200&q=80" alt="Hassan" class="member-avatar" loading="lazy">
+        <h3>Hassan Chaudhry</h3><div class="member-role">Co-Founder &amp; CCO</div><p style="font-size:0.9rem; color:var(--text-muted);">Healthcare innovation and commercial strategy leader with extensive experience in digital health, data, and life sciences.</p>
+      </article>
+      <article class="team-card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMJHlcCAyat6G1PhHEPMudzD9-vNMWJvT569mkWDWZFQ&s&auto=format&fit=crop&w=200&h=200&q=80" alt="Suki" class="member-avatar" loading="lazy">
+        <h3>Suki Panesar</h3><div class="member-role">Co-Founder &amp; Chief Strategist</div><p style="font-size:0.9rem; color:var(--text-muted);">Healthcare strategist and innovation leader with years of experience in technology, data, and AI to improve patient care.</p>
+      </article>
     </div>
   </section>
 </main>
