@@ -555,40 +555,22 @@
     .track-key-chip.active[data-track="operational"]{background:var(--operational);}
     .track-key-chip small{opacity:.75; font-weight:600;}
 
-    /* ══ Vendor directory star-rating widget (top-right of card) ══ */
-    .ucx-star-widget{position:absolute; top:.9rem; right:1rem; display:flex; flex-direction:column; align-items:flex-end; gap:.1rem;}
-    .ucx-star-widget .stars-row{display:flex; gap:1px; font-size:1.05rem; cursor:pointer;}
-    .ucx-star-widget .stars-row span{color:#d1d5db; transition:color .1s;}
-    .ucx-star-widget .stars-row span.filled{color:#f59e0b;}
-    .ucx-star-widget .stars-row span.hovered{color:#f59e0b;}
-    .ucx-star-widget .rating-count{font-size:.66rem; color:var(--text-muted); white-space:nowrap;}
-
-    /* ══ CASE STUDY SUBMISSION PANEL ══ */
-    .submission-panel {
-      background: linear-gradient(135deg, var(--primary-navy), #14304f);
-      border-radius: 12px; padding: 2rem; color: #fff;
-      display: grid; grid-template-columns: 1.1fr 1fr; gap: 2rem; align-items: start;
-    }
-    .submission-panel h3 { font-size: 1.4rem; margin-bottom: 0.6rem; }
-    .submission-panel p { color: #cbd5e1; font-size: 0.92rem; line-height: 1.6; }
-    .submission-form { background: #fff; border-radius: 10px; padding: 1.4rem; display: flex; flex-direction: column; gap: 0.8rem; }
-    .submission-form label { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.15rem; display: block; }
-    .submission-form input,
-    .submission-form select,
-    .submission-form textarea {
-      width: 100%; border: 1px solid var(--border-color); border-radius: 6px;
-      padding: 0.6rem 0.75rem; font-size: 0.9rem; font-family: inherit; outline: none;
-    }
-    .submission-form input:focus, .submission-form select:focus, .submission-form textarea:focus { border-color: var(--nhs-blue); }
-    .status-option-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .status-chip {
-      padding: 0.4rem 0.8rem; border-radius: 999px; border: 1px solid var(--border-color);
-      font-size: 0.8rem; font-weight: 600; color: var(--text-muted); cursor: pointer; background: #fff;
-    }
-    .status-chip.selected-status { background: var(--nhs-blue); color: #fff; border-color: var(--nhs-blue); }
-    @media (max-width: 800px) {
-      .submission-panel { grid-template-columns: 1fr; }
-    }
+    /* ══ Vendor directory score widget (top-right of card) ══ */
+    /* Default state: a compact numeric score. Hovering swaps it for a
+       clickable 5-star picker (CSS-only reveal + CSS-only hover-preview
+       via the row-reverse sibling trick — no JS needed for the preview). */
+    .ucx-star-widget{position:absolute; top:.9rem; right:1rem; text-align:right; z-index:2;}
+    .ucx-star-widget .score-badge{display:flex; align-items:center; gap:.3rem; background:var(--bg-light); border:1px solid var(--border-color); border-radius:20px; padding:.25rem .6rem; font-size:.78rem; font-weight:800; color:var(--primary-navy); white-space:nowrap;}
+    .ucx-star-widget .score-badge .score-count{font-weight:600; color:var(--text-muted); font-size:.7rem;}
+    .ucx-star-widget .stars-row-hover{display:none; flex-direction:row-reverse; gap:1px; font-size:1.3rem; cursor:pointer; background:#fff; border:1px solid var(--border-color); border-radius:20px; padding:.2rem .5rem;}
+    .ucx-star-widget .stars-row-hover span{color:#d1d5db; transition:color .1s;}
+    .ucx-star-widget .stars-row-hover span:hover,
+    .ucx-star-widget .stars-row-hover span:hover ~ span{color:#f59e0b;}
+    .ucx-star-widget:hover .score-badge{display:none;}
+    .ucx-star-widget:hover .stars-row-hover{display:flex;}
+    .ucx-star-widget .rate-hint{display:none; position:absolute; top:100%; right:0; margin-top:.3rem; background:var(--primary-navy); color:#fff; font-size:.66rem; font-weight:700; padding:.2rem .5rem; border-radius:6px; white-space:nowrap;}
+    .ucx-star-widget:hover .rate-hint{display:block;}
+    .ucx-card-read-more{font-size:.78rem; color:var(--nhs-blue); font-weight:700; cursor:pointer; background:none; border:none; padding:0; text-decoration:underline;}
 
     /* Academy Learning Styles */
     .academy-split {
@@ -911,6 +893,7 @@
       <nav class="ucx-nav">
         <button class="ucx-nav-btn active" data-ucx="browse" onclick="showUcxSection('browse')">🔍 Browse Solutions</button>
         <button class="ucx-nav-btn" data-ucx="submit" onclick="showUcxSection('submit')">🚀 Submit a Solution</button>
+        <button class="ucx-nav-btn" onclick="goToShareAnInsight()">📋 Upload a Case Study</button>
         <button class="ucx-nav-btn" data-ucx="admin" onclick="showUcxSection('admin')">🛡️ Admin Review</button>
         <button class="ucx-nav-btn" data-ucx="howitworks" onclick="showUcxSection('howitworks')">ℹ️ How It Works</button>
       </nav>
@@ -944,14 +927,7 @@
         </div>
         <div id="ucxVendorSignedIn" class="hidden">
 
-          <div class="ucx-panel" style="margin-bottom:1rem">
-            <label style="font-size:.76rem;font-weight:800;color:var(--primary-navy);text-transform:uppercase;display:block;margin-bottom:.6rem">What are you submitting?</label>
-            <div style="display:flex;gap:.6rem;flex-wrap:wrap">
-              <button type="button" class="ucx-pill active" id="ucxTypeDirectory" onclick="setUcxSubmitType('directory')">📇 Vendor Directory listing</button>
-              <button type="button" class="ucx-pill" id="ucxTypeCaseStudy" onclick="setUcxSubmitType('case_study')">📋 Case study instead</button>
-            </div>
-            <p id="ucxTypeHint" style="font-size:.76rem;color:var(--text-muted);margin-top:.6rem">Continue below — once verified, this appears live in the Vendor Directory with NHS-verified ratings.</p>
-          </div>
+          <p style="font-size:.8rem;color:var(--text-muted);margin-bottom:1rem">This form creates a live Vendor Directory listing. Got a pilot or deployment story to share instead? Use <a href="#" onclick="goToShareAnInsight(); return false;" style="color:var(--nhs-blue);font-weight:700">Upload a Case Study</a> above.</p>
 
           <div id="ucxDirectoryFormFields" class="ucx-panel" style="margin-bottom:1.5rem">
             <div class="ucx-field"><label for="ucxVendorName">Company / vendor name</label><input type="text" id="ucxVendorName" placeholder="e.g. Acme Health AI Ltd"></div>
@@ -975,11 +951,6 @@
             <div class="ucx-field"><label>Evidence &amp; outcomes documentation</label><textarea id="ucx-cn-evidence" rows="2"></textarea></div>
             <button class="cta-btn" style="width:100%" onclick="submitUcxSolution()">Submit for review</button>
             <p id="ucxSubmitStatus" style="font-size:.78rem;font-weight:700;margin-top:.6rem"></p>
-          </div>
-
-          <div id="ucxCaseStudyRedirect" class="hidden ucx-panel" style="text-align:center;margin-bottom:1.5rem">
-            <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:.8rem">Case studies are reviewed and published by the uPull.ai team rather than listed live. Use the Submit a Case Study form further down this page instead.</p>
-            <a href="#submit-case-study" onclick="document.getElementById('submit-case-study')?.scrollIntoView({behavior:'smooth'})" class="cta-btn">Jump to Submit a Case Study →</a>
           </div>
 
           <h4 style="color:var(--primary-navy);font-size:1rem;margin-bottom:.7rem">My submitted solutions</h4>
@@ -1015,7 +986,7 @@
       <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; max-width: 70ch;">Profiles of AI vendors and suppliers active in the community, tagged by the type of AI application they focus on. Includes uCollabX-verified solutions — click any star rating to add your score.</p>
 
       <div class="grid-container" style="margin-bottom: 3rem;" id="vendorDirectoryGrid">
-        <div class="vendor-card" data-track="clinical">
+        <div class="vendor-card" data-track="clinical" onclick="openRatingModal('seed-medscribe')" style="cursor:pointer">
           <div class="ucx-star-widget" data-solution-id="seed-medscribe"></div>
           <div class="vendor-card-header">
             <div class="vendor-logo" style="background: var(--ambient);">M</div>
@@ -1032,7 +1003,7 @@
           </div>
         </div>
 
-        <div class="vendor-card" data-track="clinical">
+        <div class="vendor-card" data-track="clinical" onclick="openRatingModal('seed-pathoagent')" style="cursor:pointer">
           <div class="ucx-star-widget" data-solution-id="seed-pathoagent"></div>
           <div class="vendor-card-header">
             <div class="vendor-logo" style="background: var(--clinical);">P</div>
@@ -1049,7 +1020,7 @@
           </div>
         </div>
 
-        <div class="vendor-card" data-track="clinical">
+        <div class="vendor-card" data-track="clinical" onclick="openRatingModal('seed-cardiopredict')" style="cursor:pointer">
           <div class="ucx-star-widget" data-solution-id="seed-cardiopredict"></div>
           <div class="vendor-card-header">
             <div class="vendor-logo" style="background: var(--agentic);">C</div>
@@ -1066,7 +1037,7 @@
           </div>
         </div>
 
-        <div class="vendor-card" data-track="clinical">
+        <div class="vendor-card" data-track="clinical" onclick="openRatingModal('seed-pharmai')" style="cursor:pointer">
           <div class="ucx-star-widget" data-solution-id="seed-pharmai"></div>
           <div class="vendor-card-header">
             <div class="vendor-logo" style="background: var(--robotic);">P</div>
@@ -1083,7 +1054,7 @@
           </div>
         </div>
 
-        <div class="vendor-card" data-track="operational">
+        <div class="vendor-card" data-track="operational" onclick="openRatingModal('seed-surgiplan')" style="cursor:pointer">
           <div class="ucx-star-widget" data-solution-id="seed-surgiplan"></div>
           <div class="vendor-card-header">
             <div class="vendor-logo" style="background: var(--agentic);">S</div>
@@ -1100,7 +1071,7 @@
           </div>
         </div>
 
-        <div class="vendor-card" data-track="clinical">
+        <div class="vendor-card" data-track="clinical" onclick="openRatingModal('seed-icuguard')" style="cursor:pointer">
           <div class="ucx-star-widget" data-solution-id="seed-icuguard"></div>
           <div class="vendor-card-header">
             <div class="vendor-logo" style="background: var(--clinical);">I</div>
@@ -1199,43 +1170,6 @@
         <p style="text-align:center; opacity:0.6; padding:2rem;">Loading vendor updates…</p>
       </div>
 
-      <h3 id="submit-case-study" style="color: var(--primary-navy); margin-bottom: 0.5rem; font-size: 1.5rem; scroll-margin-top: 110px;">5. Submit a Case Study</h3>
-      <div class="submission-panel">
-        <div>
-          <h3>Worked with a Trust or care setting? Tell the community.</h3>
-          <p>If your product has been piloted or deployed in a healthcare setting, we'd like to feature it in the Learning Hub's case study library. Submissions are reviewed by the uPull.ai team before publication — this isn't a live product listing, just a starting point for a conversation.</p>
-          <p style="margin-top:0.9rem;">Include an honest project status — early pilots are just as valuable to the community as scaled deployments.</p>
-        </div>
-        <div class="submission-form">
-          <div>
-            <label for="csVendorName">Vendor / Product Name</label>
-            <input type="text" id="csVendorName" placeholder="e.g. MedScribe AI">
-          </div>
-          <div>
-            <label for="csContactEmail">Contact Email</label>
-            <input type="email" id="csContactEmail" placeholder="you@company.com">
-          </div>
-          <div>
-            <label>Project Status</label>
-            <div class="status-option-row" id="csStatusRow">
-              <span class="status-chip" data-status="Planned" onclick="selectCsStatus(this)">Planned</span>
-              <span class="status-chip" data-status="Pilot" onclick="selectCsStatus(this)">Pilot</span>
-              <span class="status-chip" data-status="Live" onclick="selectCsStatus(this)">Live</span>
-              <span class="status-chip" data-status="Scaled" onclick="selectCsStatus(this)">Scaled</span>
-            </div>
-          </div>
-          <div>
-            <label for="csSummary">Case Study Summary</label>
-            <textarea id="csSummary" rows="3" placeholder="What problem does it solve, and what's the early evidence of impact?"></textarea>
-          </div>
-          <div>
-            <label for="csLink">Link (optional)</label>
-            <input type="url" id="csLink" placeholder="https://">
-          </div>
-          <button class="cta-btn" id="csSubmitBtn" style="width:100%;" onclick="submitCaseStudyProposal()">Submit for Review</button>
-          <p id="csSubmitStatus" style="font-size:0.8rem; color:var(--text-muted); text-align:center;"></p>
-        </div>
-      </div>
     </section>
   </main>
 </div>
@@ -1378,7 +1312,6 @@
   let isAdmin = false;
   let vendorLivePosts = [];
   let currentVendorFilter = 'all';
-  let csSelectedStatus = null;
 
   // Lazy accessor: always reads window.__firebase fresh at call time, so it
   // doesn't matter whether this script or the Firebase module finishes
@@ -1545,9 +1478,10 @@
     const list = ucxSolutions.filter(s => currentTrackFilter === 'all' || trackOfCategory(s.category) === currentTrackFilter);
     grid.innerHTML = list.map(s => {
       const status = ucxComputeStatus(s.complianceStatus);
+      const count = ucxReviewsFor(s.id).length;
       return `
-        <div class="vendor-card" onclick="openUcxModal('${s.id}')" style="cursor:pointer">
-          <div class="ucx-star-widget" data-solution-id="${s.id}" onclick="event.stopPropagation()"></div>
+        <div class="vendor-card" onclick="openRatingModal('${s.id}')" style="cursor:pointer">
+          <div class="ucx-star-widget" data-solution-id="${s.id}"></div>
           <div class="vendor-card-header">
             <div class="vendor-logo" style="background:var(--${s.category});">${(s.name||'?').charAt(0).toUpperCase()}</div>
             <div>
@@ -1559,73 +1493,87 @@
           <div class="vendor-tags"><span class="tag-pill tag-${s.category}">${UCX_CAT_LABELS[s.category]||s.category}</span></div>
           <div class="vendor-footer">
             <span class="vendor-status" style="color:var(--primary-navy)">${status.label}</span>
-            <span class="action-btn" style="font-size:0.82rem;">View profile →</span>
+            <button class="ucx-card-read-more" onclick="event.stopPropagation(); openRatingModal('${s.id}')">💬 ${count} review${count===1?'':'s'} · Read more →</button>
           </div>
         </div>`;
     }).join('');
   }
 
-  // ── star-rating widget (top-right of every Vendor Directory card) ──
+  // ── Static Vendor Directory examples don't have a real Firestore
+  // "solutions" doc — this holds their display text so the same
+  // extended read-more box / review flow works for them too. ──
+  const UCX_SEED_INFO = {
+    'seed-medscribe': {title:'MedScribe AI', subtitle:'United Kingdom · London', description:'Ambient clinical documentation — converts patient encounters into structured notes in real time, reducing administrative overhead for consultation-heavy specialties.'},
+    'seed-pathoagent': {title:'PathoAgent', subtitle:'Germany · Heidelberg', description:'Automates histopathology slide triage and pre-classification, accelerating micro-staging diagnostic workflows for pathology teams.'},
+    'seed-cardiopredict': {title:'CardioPredict', subtitle:'United Kingdom · Edinburgh', description:'Agentic triage automation for cardiology admissions — routes risk-stratified cases to the right clinical pathway without manual re-review.'},
+    'seed-pharmai': {title:'PharmAI Dispense', subtitle:'Singapore', description:'Robotic prescription cross-checking and dispensing support, integrated with pharmacy workflows to reduce manual verification time.'},
+    'seed-surgiplan': {title:'SurgiPlan AI', subtitle:'United States · Boston', description:'Agentic scheduling optimisation for operating theatres — reduces idle theatre time by dynamically resequencing lists as constraints change.'},
+    'seed-icuguard': {title:'ICU-Guard AI', subtitle:'United Kingdom · Manchester', description:'Real-time ICU alarm filtering, distinguishing actionable clinical events from non-actionable telemetry noise to reduce alarm fatigue.'}
+  };
+
+  // ── score widget (top-right of every Vendor Directory card) ──
+  // Default state shows only the numeric score. The 5-star picker is
+  // revealed on hover (CSS-only) — clicking a star opens the extended
+  // box below with that star count pre-selected, rather than posting
+  // instantly, since a score always needs a comment to back it up.
   function buildStarWidgetHTML(solutionId) {
     const avg = ucxAvgRating(solutionId);
     const count = ucxReviewsFor(solutionId).length;
-    const rounded = avg === null ? 0 : Math.round(avg);
-    const stars = [1,2,3,4,5].map(n => `<span data-n="${n}" class="${n <= rounded ? 'filled' : ''}">★</span>`).join('');
-    return `<div class="stars-row" data-solution-id="${solutionId}">${stars}</div><div class="rating-count">${count ? avg.toFixed(1) + ' (' + count + ')' : 'Rate this'}</div>`;
+    const starsButtons = [5,4,3,2,1].map(n =>
+      `<span data-n="${n}" onclick="event.stopPropagation(); openRatingModal('${solutionId}', ${n})">★</span>`
+    ).join('');
+    return `
+      <div class="score-badge">⭐ ${avg === null ? '—' : avg.toFixed(1)} <span class="score-count">(${count})</span></div>
+      <div class="stars-row-hover">${starsButtons}</div>
+      <div class="rate-hint">Click a star to rate</div>`;
   }
 
   function renderAllStarWidgets() {
     document.querySelectorAll('.ucx-star-widget[data-solution-id]').forEach(widget => {
-      const id = widget.dataset.solutionId;
-      widget.innerHTML = buildStarWidgetHTML(id);
-      const row = widget.querySelector('.stars-row');
-      if (!row) return;
-      const starsEls = Array.from(row.querySelectorAll('span'));
-      starsEls.forEach(starEl => {
-        starEl.addEventListener('mouseenter', () => {
-          const n = Number(starEl.dataset.n);
-          starsEls.forEach(s => s.classList.toggle('hovered', Number(s.dataset.n) <= n));
-        });
-        starEl.addEventListener('mouseleave', () => {
-          starsEls.forEach(s => s.classList.remove('hovered'));
-        });
-        starEl.addEventListener('click', (e) => {
-          e.stopPropagation();
-          quickRateSolution(id, Number(starEl.dataset.n));
-        });
-      });
+      widget.innerHTML = buildStarWidgetHTML(widget.dataset.solutionId);
     });
   }
 
-  async function quickRateSolution(solutionId, stars) {
-    const f = fb();
-    if (!f) return;
-    if (!currentUser) { alert('Please sign in above with your NHS email to rate a solution.'); return; }
-    if (getSignInRole() === 'vendor') { alert("Vendor accounts can't submit ratings — sign in with an @nhs.net/@nhs.uk email instead."); return; }
-    await f.addDoc(f.collection(f.db, 'solutionReviews'), {
-      solutionId, uid: currentUser.uid,
-      name: currentUser.displayName || currentUser.email || 'NHS reviewer',
-      rating: stars, comment: '', reportCount: 0, createdAt: f.serverTimestamp()
-    });
-    showUcxToast('Thanks — your rating has been added.');
+  // ── "Upload a Case Study" — links straight to the community's Share
+  // an Insight composer, rather than a separate uCollabX form. ──
+  function goToShareAnInsight() {
+    switchView('landing');
+    closeAllSubmenus();
+    closeMobileNav();
+    setTimeout(() => document.getElementById('composer')?.scrollIntoView({behavior:'smooth'}), 50);
   }
 
-  // ── submit form: directory listing vs case study ──
-  function setUcxSubmitType(type) {
-    document.getElementById('ucxTypeDirectory')?.classList.toggle('active', type === 'directory');
-    document.getElementById('ucxTypeCaseStudy')?.classList.toggle('active', type === 'case_study');
-    document.getElementById('ucxDirectoryFormFields')?.classList.toggle('hidden', type !== 'directory');
-    document.getElementById('ucxCaseStudyRedirect')?.classList.toggle('hidden', type !== 'case_study');
-    const hint = document.getElementById('ucxTypeHint');
-    if (hint) {
-      hint.textContent = type === 'directory'
-        ? 'Continue below — once verified, this appears live in the Vendor Directory with NHS-verified ratings.'
-        : 'Case studies are reviewed and published by the uPull.ai team rather than listed live.';
+  // ── extended "read more" box: dispatches to a real solution's full
+  // compliance profile, or a lightweight version for the six static
+  // Vendor Directory examples. Both share the same review form. ──
+  function openRatingModal(id, preselectStars) {
+    if (ucxSolutions.some(s => s.id === id)) {
+      openUcxModal(id, preselectStars);
+    } else if (UCX_SEED_INFO[id]) {
+      openSeedModal(id, preselectStars);
     }
   }
 
-  // ── detail modal ──
-  function openUcxModal(id) {
+  function openSeedModal(id, preselectStars) {
+    const seed = UCX_SEED_INFO[id];
+    if (!seed) return;
+    window.__ucxOpenSolutionId = id;
+    document.getElementById('ucxModalTitle').textContent = seed.title;
+    document.getElementById('ucxModalVendor').textContent = seed.subtitle;
+    document.getElementById('ucxModalBody').innerHTML = `
+      <h3>Description</h3>
+      <p>${seed.description}</p>
+      <h3 style="margin-top:1.6rem">Ratings &amp; reviews</h3>
+      <div id="ucxReviewAddForm"></div>
+      <div id="ucxReviewsList"></div>
+    `;
+    renderUcxModalReviews(id, preselectStars);
+    document.getElementById('ucxModalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // ── detail modal (real uCollabX solutions) ──
+  function openUcxModal(id, preselectStars) {
     const s = ucxSolutions.find(x => x.id === id);
     if (!s) return;
     window.__ucxOpenSolutionId = id;
@@ -1657,7 +1605,7 @@
       <div id="ucxReviewAddForm"></div>
       <div id="ucxReviewsList"></div>
     `;
-    renderUcxModalReviews(id);
+    renderUcxModalReviews(id, preselectStars);
     document.getElementById('ucxModalOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -1668,7 +1616,7 @@
     window.__ucxOpenSolutionId = null;
   }
 
-  function renderUcxModalReviews(id) {
+  function renderUcxModalReviews(id, preselectStars) {
     const addFormEl = document.getElementById('ucxReviewAddForm');
     const listEl = document.getElementById('ucxReviewsList');
     if (!addFormEl || !listEl) return;
@@ -1677,11 +1625,15 @@
     if (currentUser && getSignInRole() !== 'vendor') {
       addFormEl.innerHTML = `
         <div class="ucx-panel" style="margin-bottom:1rem">
+          <label style="font-size:.76rem;font-weight:800;color:var(--primary-navy);text-transform:uppercase;display:block;margin-bottom:.4rem">Your score</label>
           <div class="ucx-star-picker" id="ucxStarPicker">${[1,2,3,4,5].map(n => `<span data-n="${n}" onclick="setUcxStars(${n})">★</span>`).join('')}</div>
-          <textarea id="ucxReviewComment" rows="2" placeholder="Share your experience with this solution" style="width:100%;padding:.55rem;border:2px solid var(--border-color);border-radius:8px;font-size:.83rem;font-family:inherit"></textarea>
+          <label for="ucxReviewComment" style="font-size:.76rem;font-weight:800;color:var(--primary-navy);text-transform:uppercase;display:block;margin:.7rem 0 .4rem">Your experience — please justify this score</label>
+          <textarea id="ucxReviewComment" rows="3" required placeholder="What happened? What would you tell a colleague considering this solution?" style="width:100%;padding:.55rem;border:2px solid var(--border-color);border-radius:8px;font-size:.83rem;font-family:inherit"></textarea>
+          <p style="font-size:.72rem;color:var(--text-muted);margin-top:.3rem">A star rating alone isn't enough — reviews need a comment explaining the score before they can be posted.</p>
           <button class="cta-btn" style="margin-top:.6rem" onclick="submitUcxReview('${id}')">Post review</button>
         </div>`;
-      setUcxStars(0);
+      setUcxStars(preselectStars || 0);
+      if (preselectStars) document.getElementById('ucxReviewComment')?.focus();
     } else if (currentUser) {
       addFormEl.innerHTML = `<p style="font-size:.83rem;color:var(--text-muted);margin-bottom:1rem">Vendor accounts can't post ratings. Sign in above with an @nhs.net/@nhs.uk email to add a review.</p>`;
     } else {
@@ -1711,6 +1663,7 @@
     if (!f || !currentUser) { alert('Please sign in with your NHS email first.'); return; }
     if (!ucxSelectedStars) { alert('Please select a star rating.'); return; }
     const comment = (document.getElementById('ucxReviewComment')?.value || '').trim();
+    if (!comment) { alert('Please add a short comment explaining your experience — this is required to justify your score.'); return; }
     await f.addDoc(f.collection(f.db, 'solutionReviews'), {
       solutionId, uid: currentUser.uid,
       name: currentUser.displayName || currentUser.email || 'NHS reviewer',
@@ -2276,62 +2229,6 @@
         console.error('Failed to delete vendor post:', err);
         alert('Sorry, this update could not be deleted. Please try again.');
       });
-  }
-
-  // ══ CASE STUDY SUBMISSION (for review — not published live) ══
-  function selectCsStatus(el) {
-    document.querySelectorAll('#csStatusRow .status-chip').forEach(chip => chip.classList.remove('selected-status'));
-    el.classList.add('selected-status');
-    csSelectedStatus = el.dataset.status;
-  }
-
-  function submitCaseStudyProposal() {
-    const vendorName = document.getElementById('csVendorName').value.trim();
-    const contactEmail = document.getElementById('csContactEmail').value.trim();
-    const summary = document.getElementById('csSummary').value.trim();
-    const link = document.getElementById('csLink').value.trim();
-    const statusEl = document.getElementById('csSubmitStatus');
-
-    if (!vendorName || !contactEmail || !summary || !csSelectedStatus) {
-      statusEl.style.color = '#b91c1c';
-      statusEl.textContent = 'Please fill in the vendor name, contact email, project status, and summary.';
-      return;
-    }
-
-    const f = fb();
-    if (!f) {
-      statusEl.style.color = '#b91c1c';
-      statusEl.textContent = 'Still connecting — please wait a second and try again.';
-      return;
-    }
-
-    const btn = document.getElementById('csSubmitBtn');
-    btn.disabled = true;
-    btn.textContent = 'Submitting…';
-
-    f.addDoc(f.collection(f.db, 'caseStudySubmissions'), {
-      vendorName, contactEmail, summary, link,
-      status: csSelectedStatus,
-      submittedByUid: currentUser ? currentUser.uid : null,
-      reviewed: false,
-      createdAt: f.serverTimestamp()
-    }).then(() => {
-      statusEl.style.color = 'var(--clinical)';
-      statusEl.textContent = 'Thanks — your case study has been submitted for review.';
-      document.getElementById('csVendorName').value = '';
-      document.getElementById('csContactEmail').value = '';
-      document.getElementById('csSummary').value = '';
-      document.getElementById('csLink').value = '';
-      document.querySelectorAll('#csStatusRow .status-chip').forEach(chip => chip.classList.remove('selected-status'));
-      csSelectedStatus = null;
-    }).catch(err => {
-      console.error('Failed to submit case study proposal:', err);
-      statusEl.style.color = '#b91c1c';
-      statusEl.textContent = 'Sorry, something went wrong. Please try again.';
-    }).finally(() => {
-      btn.disabled = false;
-      btn.textContent = 'Submit for Review';
-    });
   }
 
   function submitPost() {
