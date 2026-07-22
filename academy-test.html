@@ -447,7 +447,7 @@
             <li><a href="#" onclick="jumpToTab('casestudies'); return false;">Case Studies</a></li>
             <li><a href="#" onclick="showSection('scores'); closeAllSubmenus(); closeMobileNav(); return false;">Score Tables</a></li>
             <li><a href="community.html#vendors">Suppliers &amp; Vendors</a></li>
-            <li><a href="proving-ground.html">🧪 The Proving Ground</a></li>
+            <li><a href="ucollabx.html">🧪 uCollabX</a></li>
           </ul>
         </li>
 
@@ -1311,7 +1311,7 @@ function showSection(name) {
 
 /* ══════════════════════════════════════════════════════════════════
    SIGN-IN ROLE — the NHS domain gate only applies to the learner/leader
-   role. Vendors sign in on the Proving Ground with role='vendor', and
+   role. Vendors sign in on uCollabX with role='vendor', and
    since localStorage is shared across pages on this origin, academy.html
    must respect that same flag rather than bouncing a signed-in vendor.
    ══════════════════════════════════════════════════════════════════ */
@@ -1717,7 +1717,7 @@ async function onAcademyAuthChange(user) {
   }
 
   // NHS domain gate — only applies to the learner/leader role. Vendors
-  // sign in on the Proving Ground with role='vendor', so their company
+  // sign in on uCollabX with role='vendor', so their company
   // email is intentionally exempt here.
   if (getSignInRole() !== 'vendor' && !isAllowedEmail(user.email)) {
     const f = fbAcademy();
