@@ -31,7 +31,7 @@
     }
     .nav-right{display:flex;align-items:center;gap:18px}
     nav.scrolled{background:rgba(14,14,14,.92);backdrop-filter:blur(16px)}
-    .brand{font-weight:900;font-size:1.25rem;letter-spacing:-.02em}
+    .brand{font-weight:900;font-size:1.6rem;letter-spacing:-.02em}
     .brand span{color:var(--accent-orange)}
     .brand:focus{outline:none}
     .brand:focus-visible{outline:2px solid var(--accent-orange-hover);outline-offset:3px}
@@ -83,6 +83,13 @@
       font-weight:800;font-size:.9rem;transition:.2s;white-space:nowrap;
     }
     .nav-btn:hover{background:var(--accent-orange-hover)}
+    .nav-icon-btn{
+      display:flex;align-items:center;justify-content:center;
+      width:38px;height:38px;border-radius:50%;
+      background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
+      font-size:1.1rem;transition:.2s;flex-shrink:0;
+    }
+    .nav-icon-btn:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.32)}
     @media(max-width:900px){
       .nav-toggle{display:block}
       .nav-menu{
@@ -350,7 +357,8 @@
         </button>
         <ul class="nav-submenu">
           <li><a href="community.html">Forum</a></li>
-            <li><a href="academy.html#tab-learning">AI Learning</a></li>
+            <li><a href="academy.html#tab-learning">uGrowX</a></li>
+            <li><a href="community.html#ucollabx">🧪 uCollabX</a></li>
             <li><a href="academy.html#tab-casestudies">Case Studies</a></li>
         </ul>
       </li>
@@ -371,7 +379,9 @@
       </li>
 
     </ul>
-    <!-- 4. PROOF OF VALUE -->
+    <!-- 4. NEWSLETTER -->
+    <a href="news.html" class="nav-icon-btn" aria-label="uPull.ai Weekly — read and subscribe to the newsletter" title="uPull.ai Weekly newsletter">📰</a>
+    <!-- 5. PROOF OF VALUE -->
     <a href="mailto:info@upull.ai" class="nav-btn">Proof of Value</a>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMobileNav()">
       <span></span><span></span><span></span>
