@@ -447,6 +447,7 @@
             <li><a href="#" onclick="jumpToTab('casestudies'); return false;">Case Studies</a></li>
             <li><a href="#" onclick="showSection('scores'); closeAllSubmenus(); closeMobileNav(); return false;">Score Tables</a></li>
             <li><a href="community.html#vendors">Suppliers &amp; Vendors</a></li>
+            <li><a href="proving-ground.html">🧪 The Proving Ground</a></li>
           </ul>
         </li>
 
@@ -1194,11 +1195,17 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') { closeCaseStudyModal(); closeCPDModal(); }
 });
 
-// ══ DEEP LINKING: #course-c5, #cs-CS3, #tab-learning, #tab-casestudies ══
+// ══ DEEP LINKING: #course-c5, #cs-CS3, #tab-learning, #tab-casestudies, #course-cat-agentic ══
 function handleDeepLink() {
   const hash = window.location.hash.replace('#', '');
   if (!hash) return;
   const btns = document.querySelectorAll('.tab-bar .tab-btn');
+
+  if (hash.startsWith('course-cat-')) {
+    const cat = hash.replace('course-cat-', '');
+    jumpToFilteredCourses(cat);
+    return;
+  }
 
   if (hash === 'tab-learning') {
     showSection('library');
@@ -1303,6 +1310,19 @@ function showSection(name) {
 }
 
 /* ══════════════════════════════════════════════════════════════════
+   SIGN-IN ROLE — the NHS domain gate only applies to the learner/leader
+   role. Vendors sign in on the Proving Ground with role='vendor', and
+   since localStorage is shared across pages on this origin, academy.html
+   must respect that same flag rather than bouncing a signed-in vendor.
+   ══════════════════════════════════════════════════════════════════ */
+function setSignInRole(role) {
+  window.localStorage.setItem('upullUserRole', role);
+}
+function getSignInRole() {
+  return window.localStorage.getItem('upullUserRole') || 'learner';
+}
+
+/* ══════════════════════════════════════════════════════════════════
    NHS EMAIL DOMAIN GATE — only @nhs.net / @nhs.uk addresses may hold
    a profile. Enforced here client-side (defence in depth); the real
    gate lives in the Firestore Security Rules / an Auth Blocking
@@ -1336,6 +1356,7 @@ function sendNhsSignInLink() {
     handleCodeInApp: true
   };
   setNhsEmailStatus('Sending link…', false);
+  setSignInRole('learner');
   f.sendSignInLinkToEmail(f.auth, email, actionCodeSettings).then(() => {
     window.localStorage.setItem('upullEmailForSignIn', email);
     setNhsEmailStatus('Check your NHS inbox and open the link on this device to finish signing in.', false);
@@ -1349,6 +1370,7 @@ function completeEmailLinkSignInIfNeeded() {
   const f = fbAcademy();
   if (!f) return;
   if (!f.isSignInWithEmailLink(f.auth, window.location.href)) return;
+  setSignInRole('learner');
 
   let email = window.localStorage.getItem('upullEmailForSignIn');
   if (!email) {
@@ -1648,6 +1670,7 @@ function fbAcademy() {
 function signInAcademy() {
   const f = fbAcademy();
   if (!f) { alert('Still connecting — please wait a second and try again.'); return; }
+  setSignInRole('learner');
   f.signInWithPopup(f.auth, f.googleProvider).catch(err => {
     console.error('Sign-in failed:', err);
     if (err.code === 'auth/unauthorized-domain') {
@@ -1693,8 +1716,10 @@ async function onAcademyAuthChange(user) {
     return;
   }
 
-  // NHS domain gate — applies no matter which sign-in method was used.
-  if (!isAllowedEmail(user.email)) {
+  // NHS domain gate — only applies to the learner/leader role. Vendors
+  // sign in on the Proving Ground with role='vendor', so their company
+  // email is intentionally exempt here.
+  if (getSignInRole() !== 'vendor' && !isAllowedEmail(user.email)) {
     const f = fbAcademy();
     if (f) f.signOut(f.auth);
     setNhsEmailStatus('That account (' + (user.email || 'no email') + ') is not an @nhs.net or @nhs.uk address, so it has been signed out.', true);
