@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
@@ -648,9 +647,9 @@
       <p class="section-subtitle" style="margin-bottom:1.25rem;">A live channel for vendors and suppliers to share product updates, integration notes, and news directly with the community. Tag each update by AI type so members can filter to what's relevant to them.</p>
 
       <div id="vendorAuthBar" style="display:flex; align-items:center; justify-content:space-between; background:#fff; border:1px solid var(--border-color); border-radius:8px; padding:0.75rem 1rem; margin-bottom:1rem;">
-        <div id="vendorAuthSignedOut" style="display:flex; align-items:center; gap:0.6rem;">
-          <span style="font-size:0.88rem; color:var(--text-muted);">Sign in to post an update as a vendor.</span>
-          <button class="cta-btn" style="padding:0.4rem 0.9rem; font-size:0.85rem;" onclick="signInAsVendor()">Sign in with Google</button>
+        <div id="vendorAuthSignedOut" style="display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap;">
+          <span style="font-size:0.88rem; color:var(--text-muted);">Sign in with an @nhs.net or @nhs.uk email to post an update as a vendor.</span>
+          <button class="cta-btn" style="padding:0.4rem 0.9rem; font-size:0.85rem;" onclick="signInAsVendor()" title="Requires a Google account whose email ends in @nhs.net or @nhs.uk">Sign in with Google</button>
         </div>
         <div id="vendorAuthSignedIn" style="display:none; align-items:center; gap:0.7rem; width:100%; justify-content:space-between;">
           <span style="font-size:0.88rem; font-weight:600; color:var(--text-dark);" id="vendorAuthName"></span>
@@ -692,8 +691,8 @@
     <div id="ucx-submit" class="ucx-view">
       <div id="ucxVendorSignedOut" class="ucx-panel" style="text-align:center">
         <h4 style="color:var(--primary-navy);margin-bottom:.5rem">Sign in as a vendor to submit</h4>
-        <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:1rem">Any company Google account — no @nhs.net/@nhs.uk requirement.</p>
-        <button class="cta-btn" onclick="signInAsVendor()">Sign in with Google</button>
+        <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:1rem">Use a Google account on an @nhs.net or @nhs.uk address — the same NHS email requirement applies to vendor representatives as everyone else on this page.</p>
+        <button class="cta-btn" onclick="signInAsVendor()" title="Requires a Google account whose email ends in @nhs.net or @nhs.uk">Sign in with Google</button>
       </div>
       <div id="ucxVendorSignedIn" class="hidden">
 
@@ -792,12 +791,14 @@
   }
 
   // ══ SIGN-IN ROLE ══
-  // The NHS domain gate only applies to the "learner/leader" role. Vendors
-  // (a different persona — they use company emails, not nhs.net) explicitly
-  // opt out of the gate by signing in through the vendor button, which sets
-  // this flag first. Stored in localStorage so it survives navigation to
-  // community.html / academy.html and back, since all pages share one
-  // Firebase Auth session.
+  // "role" only controls which UI a signed-in person sees (the member
+  // Browse/Review panel vs. the vendor Submit/Update panel) — it is NOT a
+  // security exemption. Every sign-in path, vendor included, still has to
+  // pass the NHS email domain gate in updateAuthUI() below. A vendor
+  // representative needs an @nhs.net / @nhs.uk address to sign in here,
+  // the same as anyone else. Stored in localStorage so it survives
+  // navigation to community.html / academy.html and back, since all pages
+  // share one Firebase Auth session.
   function setSignInRole(role) {
     window.localStorage.setItem('upullUserRole', role);
   }
@@ -1270,9 +1271,11 @@
   }
 
   // ══════════════════════════════════════════════════════════════════
-  // NHS EMAIL DOMAIN GATE — only @nhs.net / @nhs.uk addresses may hold
-  // a profile. This client-side check is defence in depth — the real
-  // gate is the Firestore Security Rules / an Auth Blocking Function, since dev tools can bypass JS.
+  // NHS EMAIL DOMAIN GATE — only @nhs.net / @nhs.uk addresses may sign in
+  // to this page at all, whether as a member (Browse/Review) or a vendor
+  // (Submit a Solution / Vendor Updates). No exemptions. This client-side
+  // check is defence in depth — the real gate is the Firestore Security
+  // Rules / an Auth Blocking Function, since dev tools can bypass JS.
   function isAllowedEmail(email) {
     if (!email) return false;
     const domain = email.split('@')[1]?.toLowerCase().trim() || '';
@@ -1358,13 +1361,15 @@
   }
 
   function updateAuthUI(user) {
-    // NHS domain gate — only applies to the learner/leader role. Vendors
-    // sign in via signInAsVendor(), which sets role='vendor' first, so
-    // their company email is intentionally exempt.
-    if (user && getSignInRole() !== 'vendor' && !isAllowedEmail(user.email)) {
+    // NHS domain gate — applies to every sign-in path on this page, member
+    // or vendor. There is no role-based exemption: a vendor representative
+    // needs an @nhs.net / @nhs.uk address like anyone else.
+    if (user && !isAllowedEmail(user.email)) {
       const f = fb();
       if (f) f.signOut(f.auth);
-      setNhsEmailStatus('That account (' + (user.email || 'no email') + ') is not an @nhs.net or @nhs.uk address, so it has been signed out.', true);
+      const msg = 'That account (' + (user.email || 'no email') + ') is not an @nhs.net or @nhs.uk address, so it has been signed out. Sign-in on uCollabX requires an NHS email, for members and vendor representatives alike.';
+      setNhsEmailStatus(msg, true);
+      showUcxToast('Sign-in blocked: an @nhs.net or @nhs.uk email is required.');
       return;
     }
 
