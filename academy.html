@@ -372,10 +372,12 @@
     .academy-view{display:none}
     .academy-view.active-view{display:block}
     .academy-sidebar{min-width:0;margin-top:1.25rem}
-    .sidebar-sticky{display:flex;flex-direction:row;flex-wrap:wrap;gap:1.1rem}
-    .sidebar-sticky .sidebar-card{flex:1 1 280px}
+    .sidebar-sticky{display:grid;grid-template-columns:2fr 1fr;gap:1.1rem;align-items:start}
+    @media(max-width:700px){.sidebar-sticky{grid-template-columns:1fr}}
     .sidebar-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1.2rem}
     .sidebar-card h4{color:var(--navy);font-size:.95rem;margin-bottom:.5rem}
+    .roles-section{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-top:1.25rem}
+    .roles-section h3{color:var(--navy);font-size:1.05rem;font-weight:800;margin-bottom:1rem}
   </style>
   <script type="module">
     // Shared Firebase project with community.html — signing in here or on the
@@ -520,20 +522,18 @@
         <span class="hero-badge">30 Case Studies</span>
         <span class="hero-badge">CPD Recognised</span>
       </div>
-      <div class="hero-actions" style="margin-top:1.2rem;display:flex;gap:.7rem;flex-wrap:wrap">
+      <div style="font-size:.85rem;opacity:.75;margin-top:.9rem">Powered by uPull.ai</div>
+      <div class="hero-actions" style="margin-top:.6rem;display:flex;gap:.7rem;flex-wrap:wrap">
         <a href="#" class="cta-btn" onclick="showSection('chooser'); return false;">Find my pathway →</a>
         <a href="#" class="cta-btn" style="background:transparent;border:1.5px solid rgba(255,255,255,.4)" onclick="showSection('library'); return false;">Browse the full library</a>
       </div>
-    </div>
-    <div style="flex-shrink:0;text-align:center">
-      <div style="font-size:.85rem;opacity:.75;margin-top:.25rem">Powered by uPull.ai</div>
     </div>
   </div>
 
   <!-- ══════════════ LOG IN / PROFILE — directly under the title box ══════════════ -->
   <aside class="academy-sidebar" id="login" aria-label="Your account">
     <div class="sidebar-sticky">
-      <div class="sidebar-card" id="loginSignedOut">
+      <div class="sidebar-card sidebar-card-main" id="loginSignedOut">
         <h4>🔐 Log in for tailored benefits</h4>
         <p style="font-size:.82rem;color:var(--muted);margin-bottom:1rem">Same profile as the Community Hub. Unlock a personal route, CPD tracking and a place on the score tables.</p>
 
@@ -554,12 +554,6 @@
           Sign in with Google
         </button>
         <p style="font-size:.7rem;color:var(--muted);margin-top:.4rem">Google sign-in also requires your Google account's email to be @nhs.net or @nhs.uk.</p>
-
-        <div class="role-mini-grid" style="grid-template-columns:repeat(3,1fr);margin-top:1rem">
-          <div class="role-mini-card"><strong>Learner</strong>Personal route, CPD credits, badges and saved courses.</div>
-          <div class="role-mini-card"><strong>Leader</strong>Team uptake, organisation scores, pathway planning.</div>
-          <div class="role-mini-card"><strong>Supplier</strong>Updates &amp; recognition mapping in the Community Hub.</div>
-        </div>
       </div>
 
       <div class="sidebar-card" id="loginSignedIn" style="display:none">
@@ -594,6 +588,16 @@
       </div>
     </div>
   </aside>
+
+  <!-- ══════════════ WHO uGROWX IS FOR ══════════════ -->
+  <section class="roles-section" aria-label="Who uGrowX is for">
+    <h3>Who is uGrowX for?</h3>
+    <div class="role-mini-grid" style="margin-top:0">
+      <div class="role-mini-card"><strong>Learner</strong>Personal route, CPD credits, badges and saved courses.</div>
+      <div class="role-mini-card"><strong>Leader</strong>Team uptake, organisation scores, pathway planning.</div>
+      <div class="role-mini-card"><strong>Supplier</strong>Updates &amp; recognition mapping in the Community Hub.</div>
+    </div>
+  </section>
 
   <div class="academy-shell">
     <div class="academy-content">
