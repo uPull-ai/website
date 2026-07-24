@@ -11,10 +11,10 @@
     :root{
       --nhs-blue:#005EB8;
       --nhs-blue-rgb:0,94,184;
-      --accent-orange:#E65F2B;
-      --accent-orange-rgb:230,95,43;
-      --accent-orange-hover:#c54f20;
-      --nhs-blue-light:#5B9FE0;
+      --accent-orange:#ED8B00;
+      --accent-orange-rgb:237,139,0;
+      --accent-orange-hover:#c26f00;
+      --nhs-blue-light:#41B6E6;
     }
     html{scroll-behavior:smooth}
     body{font-family:'Inter',sans-serif;background:#0e0e0e;color:#fff;overflow-x:hidden}
@@ -31,7 +31,7 @@
     }
     .nav-right{display:flex;align-items:center;gap:18px}
     nav.scrolled{background:rgba(14,14,14,.92);backdrop-filter:blur(16px)}
-    .brand{font-weight:900;font-size:1.6rem;letter-spacing:-.02em}
+    .brand{font-weight:900;font-size:1.6rem;letter-spacing:-.02em;background:none;border:none;box-shadow:none;padding:0;display:inline-block}
     .brand span{color:var(--accent-orange)}
     .brand:focus{outline:none}
     .brand:focus-visible{outline:2px solid var(--accent-orange-hover);outline-offset:3px}
@@ -114,7 +114,7 @@
     /* HERO — full viewport image */
     #hero{
       position:relative;height:100vh;min-height:680px;
-      display:flex;align-items:flex-end;
+      display:flex;align-items:flex-end;padding-top:0;
     }
     .hero-img{
       position:absolute;inset:0;z-index:0;
@@ -136,7 +136,6 @@
       margin-bottom:22px;
     }
     .tag::before{content:'';width:7px;height:7px;border-radius:999px;background:var(--accent-orange)}
-    #hero{padding-top:0}
     #hero h1{
       font-size:clamp(3.2rem,7vw,6.5rem);font-weight:900;
       letter-spacing:-.04em;line-height:1;
@@ -144,6 +143,8 @@
     }
     #hero h1 em{color:var(--accent-orange);font-style:normal}
     #hero p{font-size:1.2rem;color:rgba(255,255,255,.75);max-width:55ch;margin-bottom:32px}
+    .hero-lede{font-weight:800;font-size:1.5rem;color:#fff;letter-spacing:-.01em;line-height:1.4;margin-bottom:18px}
+    .hero-sub{font-size:.95rem;font-weight:400;color:rgba(255,255,255,.38);max-width:52ch;line-height:1.6;margin-bottom:32px}
     .hero-btns{display:flex;gap:14px;flex-wrap:wrap}
     .btn-g{
       padding:16px 26px;border-radius:999px;background:var(--accent-orange);color:#fff;
@@ -155,18 +156,6 @@
       color:#fff;font-weight:600;font-size:1rem;transition:.2s
     }
     .btn-outline:hover{border-color:var(--nhs-blue-light);color:var(--nhs-blue-light)}
-
-    /* STAT STRIP */
-    .stat-strip{
-      display:grid;grid-template-columns:repeat(4,1fr);
-      background:#111;border-top:1px solid #222;
-    }
-    .stat-item{
-      padding:36px 32px;border-right:1px solid #222;
-    }
-    .stat-item:last-child{border-right:none}
-    .stat-num{font-size:3rem;font-weight:900;letter-spacing:-.04em;color:var(--accent-orange)}
-    .stat-label{font-size:.88rem;color:rgba(255,255,255,.55);margin-top:4px}
 
     /* CHALLENGE — split image/text */
     .split{
@@ -224,6 +213,20 @@
 
     /* RESULTS — large mosaic with images */
     #results{background:#0e0e0e;padding:0}
+    #theory{background:#0e0e0e}
+    .numbers-intro{padding:96px 48px}
+    .numbers-intro h2{font-size:clamp(2rem,3.5vw,3rem);font-weight:900;letter-spacing:-.03em;margin:14px 0 32px;line-height:1.1;max-width:20ch}
+    .numbers-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+    .number-card{background:#111;border:1px solid #222;border-radius:16px;padding:28px}
+    .number-card .num{font-size:2.2rem;font-weight:900;letter-spacing:-.03em;color:var(--accent-orange);margin-bottom:10px}
+    .number-card p{color:rgba(255,255,255,.6);font-size:.9rem;line-height:1.65}
+    @media(max-width:1100px){
+      .numbers-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:900px){
+      .numbers-intro{padding:56px 24px}
+      .numbers-grid{grid-template-columns:1fr}
+    }
     .mosaic-grid{
       display:grid;
       grid-template-columns:1.4fr 1fr;
@@ -242,27 +245,6 @@
     .tile-metric{font-size:3.6rem;font-weight:900;letter-spacing:-.04em;color:var(--accent-orange)}
     .tile-title{font-size:1.25rem;font-weight:700;margin:4px 0 6px}
     .tile-desc{font-size:.9rem;color:rgba(255,255,255,.62);max-width:36ch}
-
-    /* TEAM — full-bleed portrait section */
-    #leadership{background:#111}
-    .team-header{padding:80px 48px 0}
-    .team-header h2{font-size:clamp(2rem,3.5vw,3.2rem);font-weight:900;letter-spacing:-.03em;max-width:20ch;margin:14px 0 8px}
-    .team-header p{color:rgba(255,255,255,.55);max-width:52ch}
-    .team-cards{
-      display:grid;grid-template-columns:repeat(3,1fr);
-      gap:3px;margin-top:40px;
-    }
-    .person-card{position:relative;height:600px;overflow:hidden}
-    .person-card img{transition:.5s}
-    .person-card:hover img{transform:scale(1.04)}
-    .person-overlay{
-      position:absolute;inset:0;
-      background:linear-gradient(to top, rgba(14,14,14,.96) 0%, transparent 55%);
-      display:flex;flex-direction:column;justify-content:flex-end;padding:28px;
-    }
-    .person-role{color:var(--nhs-blue-light);font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
-    .person-name{font-size:1.45rem;font-weight:900;letter-spacing:-.02em}
-    .person-bio{margin-top:8px;font-size:.9rem;color:rgba(255,255,255,.6)}
 
     /* CTA — image with overlay form */
     #cta{position:relative;min-height:540px;display:flex;align-items:center}
@@ -309,7 +291,7 @@
     .waitlist-table td{padding:18px 24px;border-bottom:1px solid #1a1a1a;font-size:.95rem;font-weight:600;vertical-align:middle}
     .waitlist-table tr:last-child td{border-bottom:none}
     .org-type{color:rgba(255,255,255,.5);font-size:.85rem;font-weight:500}
-    .status-badge{display:inline-flex;align-items:center;gap:7px;padding:7px 15px;border-radius:999px;background:rgba(230,95,43,.14);border:1px solid rgba(230,95,43,.35);color:var(--accent-orange);font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+    .status-badge{display:inline-flex;align-items:center;gap:7px;padding:7px 15px;border-radius:999px;background:rgba(var(--accent-orange-rgb),.14);border:1px solid rgba(var(--accent-orange-rgb),.35);color:var(--accent-orange);font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
     .status-badge::before{content:'';width:6px;height:6px;border-radius:999px;background:var(--accent-orange)}
     .waitlist-note{margin-top:24px;color:rgba(255,255,255,.4);font-size:.85rem}
     @media(max-width:900px){
@@ -334,16 +316,11 @@
     @media(max-width:900px){
       nav{padding:16px 24px}
       .nav-links{display:none}
-      #hero{padding-top:0}
     #hero h1{font-size:2.8rem}
-      .hero-content,.split-text,#approach .approach-content,#cta .cta-inner,.team-header{padding:48px 24px}
+      .hero-content,.split-text,#approach .approach-content,#cta .cta-inner{padding:48px 24px}
       .split,.mosaic-grid,#cta .cta-inner{grid-template-columns:1fr}
       .mosaic-grid{grid-template-rows:auto}
       .mosaic-tile.tall{grid-row:auto}
-      .team-cards{grid-template-columns:1fr}
-      .person-card{height:460px}
-      .stat-strip{grid-template-columns:repeat(2,1fr)}
-      .stat-item:nth-child(2){border-right:none}
       footer{flex-direction:column;gap:20px;align-items:flex-start;padding:32px 24px}
       #hero .hero-content{padding-bottom:60px}
     }
@@ -365,6 +342,7 @@
           <li><a href="#problem" onclick="closeAllSubmenus(); closeMobileNav();">Challenge</a></li>
           <li><a href="#approach" onclick="closeAllSubmenus(); closeMobileNav();">Model</a></li>
           <li><a href="#results" onclick="closeAllSubmenus(); closeMobileNav();">Results</a></li>
+          <li><a href="faqs.html#leadership">Leadership</a></li>
         </ul>
       </li>
 
@@ -376,12 +354,16 @@
         <ul class="nav-submenu">
           <li><a href="community.html">Forum</a></li>
             <li><a href="academy.html#tab-learning">uGrowX</a></li>
-            <li><a href="community.html#ucollabx">🧪 uCollabX</a></li>
             <li><a href="academy.html#tab-casestudies">Case Studies</a></li>
         </ul>
       </li>
 
-      <!-- 3. FAQS -->
+      <!-- 3. UCOLLABX -->
+      <li class="nav-item">
+        <a class="nav-link-item" href="ucollabx.html">uCollabX</a>
+      </li>
+
+      <!-- 4. FAQS -->
       <li class="nav-item">
         <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
           FAQs <span class="nav-chevron" aria-hidden="true"></span>
@@ -397,10 +379,10 @@
       </li>
 
     </ul>
-    <!-- 4. NEWSLETTER -->
+    <!-- 5. NEWSLETTER -->
     <a href="news.html" class="nav-icon-btn" aria-label="uPull.ai Weekly — read and subscribe to the newsletter" title="uPull.ai Weekly newsletter">📰</a>
-    <!-- 5. PROOF OF VALUE -->
-    <a href="mailto:info@upull.ai" class="nav-btn">Proof of Value</a>
+    <!-- 6. PROOF OF VALUE -->
+    <a href="#cta" class="nav-btn">Proof of Value</a>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMobileNav()">
       <span></span><span></span><span></span>
     </button>
@@ -416,21 +398,14 @@
   <div class="hero-content">
     <div class="tag">NHS AI Adoption</div>
     <h1>Stop pushing.<br><em>Start pulling</em> AI.</h1>
-    <p>Enable your own workforce to drive innovation, transformation, and saving from within. Redesign one workflow. Build capability. Prove measurable value in six weeks.</p>
+    <p class="hero-lede">AI adoption led by your frontline.</p>
+    <p class="hero-sub">Enable your own workforce to drive innovation, transformation, and saving from within. Redesign one workflow. Build capability. Prove measurable value in six weeks.</p>
     <div class="hero-btns">
-      <a href="mailto:info@upull.ai" class="btn-g">Proof of Value</a>
+      <a href="#cta" class="btn-g">Proof of Value</a>
       <a href="#approach" class="btn-outline">See the model</a>
     </div>
   </div>
 </section>
-
-<!-- STAT STRIP -->
-<div class="stat-strip reveal">
-  <div class="stat-item"><div class="stat-num">45%</div><div class="stat-label">Documentation time saved</div></div>
-  <div class="stat-item"><div class="stat-num">85%</div><div class="stat-label">Referral pathways automated</div></div>
-  <div class="stat-item"><div class="stat-num">5:1</div><div class="stat-label">Target ROI ratio</div></div>
-  <div class="stat-item"><div class="stat-num">6 wks</div><div class="stat-label">To proof of value</div></div>
-</div>
 
 <!-- CHALLENGE — split -->
 <section id="problem">
@@ -509,37 +484,66 @@
   </div>
 </section>
 
-<!-- RESULTS — mosaic tiles -->
-<section id="results">
-  <div class="mosaic-grid">
-    <div class="mosaic-tile tall">
-      <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1200&q=80&auto=format&fit=crop" alt="Clinical documentation">
-      <div class="tile-overlay reveal">
-        <div class="tile-metric">45%</div>
-        <div class="tile-title">Ambient Voice &amp; Medical Scribing</div>
-        <div class="tile-desc">Real-time ambient validation reduces documentation time across pilot sites.</div>
+<!-- THEORY & TARGET -->
+<section id="theory">
+  <div class="numbers-intro reveal">
+    <div class="tag">Our theory. Our target.</div>
+    <h2>What the numbers mean</h2>
+    <div class="numbers-grid">
+      <div class="number-card">
+        <div class="num">45%</div>
+        <p>Documentation time we expect back once ambient voice AI drafts and validates notes in real time, so staff check and confirm instead of typing from scratch.</p>
       </div>
-    </div>
-    <div class="mosaic-tile">
-      <img src="https://images.unsplash.com/photo-1585842378054-ee2e52f94ba2?w=900&q=80&auto=format&fit=crop" alt="Triage automation">
-      <div class="tile-overlay reveal">
-        <div class="tile-metric">85%</div>
-        <div class="tile-title">Care Triage Automation</div>
-        <div class="tile-desc">Referral pathways automated, reducing friction and improving consistency.</div>
+      <div class="number-card">
+        <div class="num">85%</div>
+        <p>Referral pathway steps we aim to automate end to end, so referrals move forward without waiting on manual triage and paperwork.</p>
       </div>
-    </div>
-    <div class="mosaic-tile">
-      <img src="https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=900&q=80&auto=format&fit=crop" alt="ROI and proof of value">
-      <div class="tile-overlay reveal">
-        <div class="tile-metric">5:1</div>
-        <div class="tile-title">Target ROI · 6-Week Proof</div>
-        <div class="tile-desc">One workflow, measurable return, leadership-ready evidence.</div>
+      <div class="number-card">
+        <div class="num">5:1</div>
+        <p>Return we target for every pound invested, measured in staff time, cost avoidance and capacity released back to patient care.</p>
+      </div>
+      <div class="number-card">
+        <div class="num">6 wks</div>
+        <p>Time it takes us to redesign one workflow, add the right AI layer, and prove measurable value, from kickoff to evidence.</p>
       </div>
     </div>
   </div>
 </section>
 
-
+<!-- RESULTS — mosaic tiles -->
+<section id="results">
+  <div class="numbers-intro reveal" style="padding-bottom:40px">
+    <div class="tag">Achievements in health and care</div>
+    <h2>Proof from the field, not a pitch deck</h2>
+    <p class="approach-sub">Three named deployments already running across health systems, each one a verifiable case study you can read in full.</p>
+  </div>
+  <div class="mosaic-grid">
+    <div class="mosaic-tile tall">
+      <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1200&q=80&auto=format&fit=crop" alt="Clinical documentation">
+      <div class="tile-overlay reveal">
+        <div class="tile-metric">94%</div>
+        <div class="tile-title">MedScribe AI &middot; Automated Clinical Documentation</div>
+        <div class="tile-desc">94% of clinicians saw out of hours chart dictation eliminated, with consultation to signature turnaround falling from 18 minutes to under 90 seconds. UK, London.</div>
+      </div>
+    </div>
+    <div class="mosaic-tile">
+      <img src="https://images.unsplash.com/photo-1585842378054-ee2e52f94ba2?w=900&q=80&auto=format&fit=crop" alt="Triage automation">
+      <div class="tile-overlay reveal">
+        <div class="tile-metric">52%</div>
+        <div class="tile-title">AuraCare Agent &middot; Psychiatric Intake and Patient Triaging</div>
+        <div class="tile-desc">Emergency psychiatric assessment processing time cut by 52% following ambient intake setup, easing waiting room pressure. Australia, Melbourne.</div>
+      </div>
+    </div>
+    <div class="mosaic-tile">
+      <img src="https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=900&q=80&auto=format&fit=crop" alt="ROI and proof of value">
+      <div class="tile-overlay reveal">
+        <div class="tile-metric">310%</div>
+        <div class="tile-title">PathoAgent &middot; Automating Histopathology Workflows</div>
+        <div class="tile-desc">Slide screening throughput increased 310% with zero reported false negatives during test registry validation. Germany, Heidelberg.</div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- CTA -->
 <section id="cta">
@@ -557,6 +561,7 @@
       <label for="email">Work email address</label>
       <input id="email" class="cta-input" type="email" placeholder="name@nhs.net" aria-label="Work email">
       <button type="submit" class="cta-btn">Register interest</button>
+      <p style="font-size:.8rem;color:rgba(255,255,255,.4);margin-top:14px;text-align:center">Prefer to talk it through first? <a href="mailto:info@upull.ai" style="color:var(--nhs-blue-light);text-decoration:underline">Email us directly</a> and we will get back to you within one working day.</p>
     </form>
   </div>
 </section>
@@ -638,6 +643,8 @@
   </div>
   <p class="waitlist-note">Illustrative list for demonstration purposes. Contact <a href="mailto:info@upull.ai" style="color:rgba(255,255,255,.6);text-decoration:underline">info@upull.ai</a> to register your organisation's interest.</p>
 </section>
+
+
 
 <script>
   // Nav scroll style
