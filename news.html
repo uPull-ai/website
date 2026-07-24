@@ -13,9 +13,9 @@
     *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Roboto,system-ui,-apple-system,sans-serif;scroll-behavior:smooth}
     body{background:#F8FAFC;color:#1E293B;line-height:1.6}
     :root{
-      --navy:#0A192F;--blue:#005EB8;--blue-rgb:0,94,184;--orange:#E65F2B;--orange-hover:#c54f20;--bg:#F8FAFC;
-      --card:#ffffff;--muted:#64748B;--border:#E2E8F0;
-      --agentic:#7c3aed;--ambient:#0284c7;--clinical:#0d9488;--robotic:#dc2626;--learning:#b45309;
+      --navy:#003087;--blue:#005EB8;--blue-rgb:0,94,184;--orange:#ED8B00;--orange-hover:#c26f00;--bg:#F8FAFC;
+      --card:#ffffff;--muted:#768692;--border:#E8EDEE;
+      --agentic:#AE2573;--ambient:#41B6E6;--clinical:#00A499;--robotic:#DA291C;--learning:#FFB81C;
     }
     header{background:var(--navy);padding:1rem 5%;position:sticky;top:0;z-index:1000;border-bottom:3px solid var(--blue);box-shadow:0 4px 6px -1px rgba(0,0,0,.1)}
     .nav-container{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;flex-wrap:wrap;gap:.5rem}
@@ -54,6 +54,10 @@
     .breadcrumb-inner .bc-current{color:var(--navy);font-weight:700}
     .cta-btn{background:var(--orange);color:#fff;padding:.55rem 1.2rem;border-radius:5px;font-weight:700;border:none;cursor:pointer;transition:background .2s,transform .1s;text-decoration:none;display:inline-block;font-size:.88rem;white-space:nowrap}
     .cta-btn:hover{background:var(--orange-hover);transform:translateY(-1px)}
+    .nav-icon-btn{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);font-size:1.1rem;transition:.2s;flex-shrink:0;text-decoration:none}
+    .nav-icon-btn:hover,.nav-icon-btn.active-tab{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.32)}
+    .footer-subscribe{color:var(--orange);font-weight:700;text-decoration:none}
+    .footer-subscribe:hover{text-decoration:underline}
     main{max-width:1000px;margin:0 auto;padding:0 5%}
     section{padding:2.5rem 0;border-bottom:1px solid var(--border)}
     .section-title{font-size:1.7rem;color:var(--navy);margin-bottom:.4rem;font-weight:800}
@@ -117,7 +121,7 @@
 
 <header>
   <div class="nav-container">
-    <a href="index.html" class="logo">uPull<span>.ai</span><span class="logo-tag">Weekly</span></a>
+    <a href="index.html" class="logo">uPull<span>.ai</span></a>
     <div class="nav-right">
       <nav aria-label="Primary">
       <ul class="nav-menu" id="navMenu">
@@ -130,20 +134,23 @@
             <li><a href="index.html#problem">Challenge</a></li>
             <li><a href="index.html#approach">Model</a></li>
             <li><a href="index.html#results">Results</a></li>
+            <li><a href="faqs.html#leadership">Leadership</a></li>
           </ul>
         </li>
 
         <li class="nav-item">
-          <button class="nav-link-item active-tab" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
+          <button class="nav-link-item" aria-haspopup="true" aria-expanded="false" onclick="toggleSubmenu(this)">
             Community <span class="nav-chevron" aria-hidden="true"></span>
           </button>
           <ul class="nav-submenu">
-            <li><a href="community.html">Community Forum</a></li>
+            <li><a href="community.html">Community</a></li>
             <li><a href="academy.html#tab-learning">uGrowX</a></li>
-            <li><a href="community.html#ucollabx">🧪 uCollabX</a></li>
-            <li><a href="community.html#vendors">Suppliers &amp; Vendors</a></li>
-            <li><a href="newsletter-archive.html" style="color:#fff">📰 uPull.ai Weekly</a></li>
+            <li><a href="academy.html#tab-casestudies">Case Studies</a></li>
           </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link-item" href="ucollabx.html" style="text-decoration:none">uCollabX</a>
         </li>
 
         <li class="nav-item">
@@ -159,6 +166,7 @@
 
       </ul>
       </nav>
+      <a href="news.html" class="nav-icon-btn active-tab" aria-label="uPull.ai Weekly newsletter" title="uPull.ai Weekly newsletter">📰</a>
       <a href="mailto:info@upull.ai" class="cta-btn">Proof of Value</a>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" onclick="toggleMobileNav()">
         <span></span><span></span><span></span>
@@ -184,7 +192,7 @@
     <p>Every issue in one place — AI in Agentic, Robotics, Ambient and Clinical AI, plus free NHS learning opportunities, delivered weekly.</p>
     <div class="subscribe-box">
       <div>
-        <strong>📬 Subscribe to get it in your inbox</strong>
+        <strong>Subscribe to get it in your inbox</strong>
       </div>
       <div>
         <form class="subscribe-form" onsubmit="event.preventDefault(); subscribeToNewsletter();">
@@ -201,12 +209,12 @@
     <p class="section-subtitle">New issues are added every week. Use "Unsubscribe" in the footer of any issue if you'd rather stop receiving these.</p>
 
     <div class="issue-grid">
-      <a href="/news/weekly20260714.html" class="issue-card">
-        <img src="https://images.unsplash.com/photo-1694903089438-bf28d4697d9a" alt="uPull.ai Weekly, 14–20 July 2026">
+      <a href="weekly20260714.html" class="issue-card">
+        <img src="https://images.unsplash.com/photo-1694903089438-bf28d4697d9a?auto=format&fit=crop&w=600&q=80" alt="uPull.ai Weekly, 14–20 July 2026">
         <div class="issue-card-body">
           <span class="issue-date">Week of 14–20 July 2026</span>
-          <div class="issue-title">Agents as co-workers, sim-to-real robotics gains, and ambient hospital pilots</div>
-          <p class="issue-teaser">Agentic AI moves into enterprise workflows, robotics teams improve sim-to-real transfer, ambient intelligence becomes infrastructure, and MHRA tightens SaMD guidance.</p>
+          <div class="issue-title">Agentic, Robotics, Ambient &amp; Clinical AI: deploying safely in a real institution</div>
+          <p class="issue-teaser">This week's headline, NHS use case, governance note, learning resource and workflow action for each of our four beats — all read through the lens of safe deployment.</p>
           <div class="issue-tags">
             <span class="issue-tag agentic">Agentic</span>
             <span class="issue-tag robotic">Robotics</span>
@@ -230,6 +238,7 @@
 
 <footer>
   <p><strong>uPull<span style="color:var(--orange)">.</span>ai</strong> Weekly Archive · Curated AI news for health and care teams</p>
+  <p style="margin-top:.6rem"><a href="#subscribeEmail" class="footer-subscribe" onclick="document.getElementById('subscribeEmail')?.focus()">Subscribe to our newsletter →</a></p>
   <p style="margin-top:.5rem;font-size:.75rem;opacity:.6">© 2026 uPull.ai Ltd. All rights reserved.</p>
 </footer>
 
